@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   # OLTP Database for Master Data
   postgres:
@@ -48,14 +46,15 @@ services:
     depends_on:
       - namenode
 
-  # Presto Query Engine
-  presto:
-    image: prestodb/presto:latest
-    container_name: procurement_presto
+  # Trino Query Engine (formerly Presto)
+  trino:
+    image: trinodb/trino:latest
+    container_name: procurement_trino
     ports:
       - "8080:8080"
     volumes:
-      - ./config/presto:/opt/presto/etc/catalog
+      - ./config/trino:/etc/trino/catalog
+      - ./config/trino-config:/etc/trino
     networks:
       - procurement_network
 

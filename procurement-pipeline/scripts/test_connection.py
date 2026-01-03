@@ -1,6 +1,5 @@
 import psycopg2
 from hdfs import InsecureClient
-from prestodb import dbapi
 import sys
 
 def test_postgres():
@@ -35,25 +34,27 @@ def test_hdfs():
     except Exception as e:
         print(f"❌ HDFS Connection Failed: {e}")
 
-def test_presto():
-    print("\nTesting Presto connection...")
+def test_trino():
+    print("\nTesting Trino connection...")
     try:
-        conn = dbapi.connect(
+        from trino.dbapi import connect
+        conn = connect(
             host='localhost',
             port=8080,
             user='admin',
             catalog='system',
-            schema='runtime'
+            schema='runtime',
+            http_scheme='http'
         )
         cur = conn.cursor()
         cur.execute("SELECT 1")
         rows = cur.fetchall()
-        print(f"✅ Presto Connected. Query result: {rows[0][0]}")
+        print(f"✅ Trino Connected. Query result: {rows[0][0]}")
     except Exception as e:
-        print(f"❌ Presto Connection Failed: {e}")
+        print(f"❌ Trino Connection Failed: {e}")
 
 if __name__ == "__main__":
     print("Starting Infrastructure Health Check...\n")
     test_postgres()
     test_hdfs()
-    test_presto()
+    test_trino()
