@@ -1,0 +1,574 @@
+[
+  {
+    "order_id": "4009e71e-5bf9-4117-8d77-a7d92d0b3cfa",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T07:16:21",
+    "items": [
+      {
+        "sku": "SKU-0044",
+        "quantity": 9,
+        "price": 24.22
+      },
+      {
+        "sku": "SKU-0001",
+        "quantity": 1,
+        "price": 51.23
+      },
+      {
+        "sku": "SKU-0005",
+        "quantity": 6,
+        "price": 93.38
+      }
+    ]
+  },
+  {
+    "order_id": "921b9b97-8128-4cde-a181-1bf36d1bb2bf",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T10:39:39",
+    "items": [
+      {
+        "sku": "SKU-0039",
+        "quantity": 1,
+        "price": 57.26
+      },
+      {
+        "sku": "SKU-0050",
+        "quantity": 7,
+        "price": 31.3
+      },
+      {
+        "sku": "SKU-0011",
+        "quantity": 3,
+        "price": 38.47
+      },
+      {
+        "sku": "SKU-0014",
+        "quantity": 5,
+        "price": 29.78
+      },
+      {
+        "sku": "SKU-0044",
+        "quantity": 3,
+        "price": 42.95
+      }
+    ]
+  },
+  {
+    "order_id": "63a10016-7e5e-493e-9812-0e7b9a40b2d7",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T22:29:22",
+    "items": [
+      {
+        "sku": "SKU-0049",
+        "quantity": 6,
+        "price": 92.29
+      },
+      {
+        "sku": "SKU-0046",
+        "quantity": 1,
+        "price": 69.01
+      },
+      {
+        "sku": "SKU-0049",
+        "quantity": 7,
+        "price": 52.02
+      }
+    ]
+  },
+  {
+    "order_id": "12f8bfdd-6198-4fb7-b218-90b557110e93",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T22:00:01",
+    "items": [
+      {
+        "sku": "SKU-0021",
+        "quantity": 6,
+        "price": 27.41
+      },
+      {
+        "sku": "SKU-0048",
+        "quantity": 3,
+        "price": 57.36
+      },
+      {
+        "sku": "SKU-0009",
+        "quantity": 1,
+        "price": 27.87
+      },
+      {
+        "sku": "SKU-0028",
+        "quantity": 1,
+        "price": 13.71
+      }
+    ]
+  },
+  {
+    "order_id": "a0b6fcd8-9851-4b58-b2a1-44be0d2a63a1",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T12:39:19",
+    "items": [
+      {
+        "sku": "SKU-0048",
+        "quantity": 7,
+        "price": 48.35
+      },
+      {
+        "sku": "SKU-0046",
+        "quantity": 10,
+        "price": 57.06
+      },
+      {
+        "sku": "SKU-0007",
+        "quantity": 1,
+        "price": 66.72
+      },
+      {
+        "sku": "SKU-0045",
+        "quantity": 1,
+        "price": 27.82
+      }
+    ]
+  },
+  {
+    "order_id": "138f4a68-f858-4631-a641-bdce0cc9bc32",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T19:00:47",
+    "items": [
+      {
+        "sku": "SKU-0040",
+        "quantity": 5,
+        "price": 78.64
+      },
+      {
+        "sku": "SKU-0026",
+        "quantity": 7,
+        "price": 51.36
+      },
+      {
+        "sku": "SKU-0042",
+        "quantity": 7,
+        "price": 93.77
+      },
+      {
+        "sku": "SKU-0009",
+        "quantity": 7,
+        "price": 48.86
+      },
+      {
+        "sku": "SKU-0014",
+        "quantity": 10,
+        "price": 66.16
+      }
+    ]
+  },
+  {
+    "order_id": "378c4d96-cbf3-462a-aeb4-67a1ed4439c2",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T02:30:28",
+    "items": [
+      {
+        "sku": "SKU-0016",
+        "quantity": 7,
+        "price": 11.59
+      },
+      {
+        "sku": "SKU-0034",
+        "quantity": 1,
+        "price": 18.95
+      }
+    ]
+  },
+  {
+    "order_id": "8268cf06-0957-4d8a-8030-bf516b8447d5",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T14:54:25",
+    "items": [
+      {
+        "sku": "SKU-0012",
+        "quantity": 9,
+        "price": 39.32
+      },
+      {
+        "sku": "SKU-0048",
+        "quantity": 7,
+        "price": 79.99
+      }
+    ]
+  },
+  {
+    "order_id": "75b1af3b-d502-471a-bbd2-6104d00e2bee",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T02:39:24",
+    "items": [
+      {
+        "sku": "SKU-0001",
+        "quantity": 3,
+        "price": 22.46
+      },
+      {
+        "sku": "SKU-0038",
+        "quantity": 3,
+        "price": 62.34
+      }
+    ]
+  },
+  {
+    "order_id": "c8d53656-0983-4bb1-a4f2-2ee37c128724",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T21:09:19",
+    "items": [
+      {
+        "sku": "SKU-0039",
+        "quantity": 4,
+        "price": 66.21
+      }
+    ]
+  },
+  {
+    "order_id": "3fab1455-3c76-4a8e-9266-ff87d4f30983",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T09:41:07",
+    "items": [
+      {
+        "sku": "SKU-0017",
+        "quantity": 5,
+        "price": 45.04
+      },
+      {
+        "sku": "SKU-0011",
+        "quantity": 10,
+        "price": 99.83
+      },
+      {
+        "sku": "SKU-0024",
+        "quantity": 8,
+        "price": 73.52
+      },
+      {
+        "sku": "SKU-0001",
+        "quantity": 1,
+        "price": 96.37
+      },
+      {
+        "sku": "SKU-0018",
+        "quantity": 9,
+        "price": 14.3
+      }
+    ]
+  },
+  {
+    "order_id": "470424aa-b22d-4e0c-acd2-26508d0a999c",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T17:34:15",
+    "items": [
+      {
+        "sku": "SKU-0018",
+        "quantity": 2,
+        "price": 57.13
+      },
+      {
+        "sku": "SKU-0041",
+        "quantity": 10,
+        "price": 30.25
+      },
+      {
+        "sku": "SKU-0005",
+        "quantity": 10,
+        "price": 81.89
+      }
+    ]
+  },
+  {
+    "order_id": "dadf7816-150a-4889-b036-4db8251ae37d",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T21:18:36",
+    "items": [
+      {
+        "sku": "SKU-0049",
+        "quantity": 5,
+        "price": 69.94
+      },
+      {
+        "sku": "SKU-0037",
+        "quantity": 10,
+        "price": 59.32
+      },
+      {
+        "sku": "SKU-0015",
+        "quantity": 6,
+        "price": 65.53
+      },
+      {
+        "sku": "SKU-0006",
+        "quantity": 10,
+        "price": 89.51
+      }
+    ]
+  },
+  {
+    "order_id": "09d79e3c-fe63-48e6-a5ab-2bc091763575",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T16:51:20",
+    "items": [
+      {
+        "sku": "SKU-0021",
+        "quantity": 4,
+        "price": 87.12
+      }
+    ]
+  },
+  {
+    "order_id": "23d8793b-8549-4e5b-90c9-32e2e96959a3",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T16:18:47",
+    "items": [
+      {
+        "sku": "SKU-0044",
+        "quantity": 9,
+        "price": 78.34
+      }
+    ]
+  },
+  {
+    "order_id": "22496f0f-c3f2-4b83-8627-729b03cf14c1",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T23:53:42",
+    "items": [
+      {
+        "sku": "SKU-0008",
+        "quantity": 1,
+        "price": 85.0
+      },
+      {
+        "sku": "SKU-0010",
+        "quantity": 7,
+        "price": 31.91
+      }
+    ]
+  },
+  {
+    "order_id": "b3564624-c4bc-44eb-8042-c091c9a2649b",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T06:50:01",
+    "items": [
+      {
+        "sku": "SKU-0036",
+        "quantity": 3,
+        "price": 24.59
+      },
+      {
+        "sku": "SKU-0027",
+        "quantity": 7,
+        "price": 54.31
+      },
+      {
+        "sku": "SKU-0019",
+        "quantity": 9,
+        "price": 80.08
+      },
+      {
+        "sku": "SKU-0044",
+        "quantity": 2,
+        "price": 41.16
+      }
+    ]
+  },
+  {
+    "order_id": "2b728714-c8f3-42c0-a30f-a8adb1e2313c",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T19:32:04",
+    "items": [
+      {
+        "sku": "SKU-0011",
+        "quantity": 9,
+        "price": 14.16
+      },
+      {
+        "sku": "SKU-0018",
+        "quantity": 1,
+        "price": 61.96
+      },
+      {
+        "sku": "SKU-0032",
+        "quantity": 5,
+        "price": 80.36
+      }
+    ]
+  },
+  {
+    "order_id": "6d98cf48-a28d-4d40-bd93-678921e4b3f4",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T16:17:01",
+    "items": [
+      {
+        "sku": "SKU-0049",
+        "quantity": 9,
+        "price": 70.58
+      },
+      {
+        "sku": "SKU-0014",
+        "quantity": 1,
+        "price": 26.31
+      },
+      {
+        "sku": "SKU-0013",
+        "quantity": 8,
+        "price": 29.36
+      },
+      {
+        "sku": "SKU-0047",
+        "quantity": 6,
+        "price": 60.07
+      }
+    ]
+  },
+  {
+    "order_id": "eaf777cc-f73d-4458-905b-473016d437eb",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T10:27:32",
+    "items": [
+      {
+        "sku": "SKU-0004",
+        "quantity": 10,
+        "price": 13.37
+      },
+      {
+        "sku": "SKU-0037",
+        "quantity": 10,
+        "price": 43.51
+      },
+      {
+        "sku": "SKU-0047",
+        "quantity": 7,
+        "price": 31.15
+      }
+    ]
+  },
+  {
+    "order_id": "19452017-1f29-444a-9968-97acd2b30972",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T20:30:36",
+    "items": [
+      {
+        "sku": "SKU-0036",
+        "quantity": 7,
+        "price": 63.33
+      }
+    ]
+  },
+  {
+    "order_id": "72755cfc-1ae5-4cba-9217-8cb921d0c60f",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T08:09:48",
+    "items": [
+      {
+        "sku": "SKU-0045",
+        "quantity": 3,
+        "price": 28.56
+      },
+      {
+        "sku": "SKU-0010",
+        "quantity": 9,
+        "price": 40.21
+      },
+      {
+        "sku": "SKU-0024",
+        "quantity": 4,
+        "price": 91.83
+      },
+      {
+        "sku": "SKU-0046",
+        "quantity": 5,
+        "price": 19.54
+      }
+    ]
+  },
+  {
+    "order_id": "022bdc00-16eb-4c64-9c8a-943c1a617683",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T03:59:04",
+    "items": [
+      {
+        "sku": "SKU-0008",
+        "quantity": 2,
+        "price": 98.6
+      }
+    ]
+  },
+  {
+    "order_id": "376c5585-4ed9-4549-b189-92d8009ae20d",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T16:21:08",
+    "items": [
+      {
+        "sku": "SKU-0002",
+        "quantity": 8,
+        "price": 69.48
+      },
+      {
+        "sku": "SKU-0001",
+        "quantity": 3,
+        "price": 78.02
+      },
+      {
+        "sku": "SKU-0043",
+        "quantity": 10,
+        "price": 73.11
+      },
+      {
+        "sku": "SKU-0042",
+        "quantity": 8,
+        "price": 72.29
+      },
+      {
+        "sku": "SKU-0014",
+        "quantity": 4,
+        "price": 13.06
+      }
+    ]
+  },
+  {
+    "order_id": "5ad41dd4-4761-4236-98ba-a19fc6074f4a",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T13:07:54",
+    "items": [
+      {
+        "sku": "SKU-0025",
+        "quantity": 3,
+        "price": 50.82
+      },
+      {
+        "sku": "SKU-0031",
+        "quantity": 9,
+        "price": 42.03
+      },
+      {
+        "sku": "SKU-0016",
+        "quantity": 1,
+        "price": 25.77
+      }
+    ]
+  },
+  {
+    "order_id": "53668136-bd03-478d-a0f9-c06e439b8842",
+    "pos_id": "POS-004",
+    "timestamp": "2026-01-03T09:14:04",
+    "items": [
+      {
+        "sku": "SKU-0024",
+        "quantity": 10,
+        "price": 48.14
+      },
+      {
+        "sku": "SKU-0038",
+        "quantity": 1,
+        "price": 49.64
+      },
+      {
+        "sku": "SKU-0006",
+        "quantity": 5,
+        "price": 45.25
+      }
+    ]
+  }
+]

@@ -1,0 +1,82 @@
+version: '3'
+
+services:
+  # OLTP Database for Master Data
+  postgres:
+    image: postgres:13
+    container_name: procurement_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: procurement_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./sql/postgres:/docker-entrypoint-initdb.d
+    networks:
+      - procurement_network
+
+  # HDFS Namenode
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: procurement_namenode
+    hostname: namenode
+    environment:
+      - CLUSTER_NAME=procurement
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - HDFS_CONF_dfs_replication=1
+    ports:
+      - "9870:9870"
+      - "9000:9000"
+    volumes:
+      - hdfs_namenode_data:/hadoop/dfs/name
+    networks:
+      - procurement_network
+
+  # HDFS Datanode
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: procurement_datanode
+    hostname: datanode
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - HDFS_CONF_dfs_replication=1
+    volumes:
+      - hdfs_datanode_data:/hadoop/dfs/data
+    networks:
+      - procurement_network
+    depends_on:
+      - namenode
+
+  # Presto Query Engine
+  presto:
+    image: prestodb/presto:latest
+    container_name: procurement_presto
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config/presto:/opt/presto/etc/catalog
+    networks:
+      - procurement_network
+
+  # pgAdmin - PostgreSQL Web Interface
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: procurement_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      - procurement_network
+    depends_on:
+      - postgres
+
+networks:
+  procurement_network:
+    driver: bridge
+
+volumes:
+  hdfs_namenode_data:
+  hdfs_datanode_data:
