@@ -1,176 +1,649 @@
-This `README.md` is designed to serve as the "Source of Truth" for your project. By keeping this file in your root directory, **GitHub Copilot** will be able to index it and provide much more accurate code suggestions because it will understand your specific business logic (like the net demand formula) and your technical constraints (like the no-streaming rule).
+# 🏭 Procurement Data Pipeline
+
+**Module:** Fondements Big Data (ENSA Al Hoceima)  
+**Academic Year:** 2025-2026  
+**Branch:** `data_ing-phase3`
 
 ---
-
-# Simplified Data Pipeline for a Procurement System
-
-**Module:** Fondements Big Data (ENSA Al Hoceima) **Academic Year:** 2025-2026 
 
 ## 📌 Project Overview
 
-The objective of this project is to implement a simplified, batch-oriented data pipeline for a retail procurement system. The system collects daily customer orders and warehouse stock levels to calculate net demand and automatically generate supplier replenishment orders.
+This project implements a **batch-oriented data pipeline** for a retail procurement system. The system collects daily customer orders from 15 Points of Sale (POS) and warehouse stock levels from 5 warehouses, then calculates net demand and automatically generates supplier replenishment orders.
 
-### Key Constraints:
+### 🎯 Business Objective
 
-* 
-**Batch Processing Only:** No streaming technologies (Kafka/Flink/Spark Streaming) are allowed.
+Transform raw sales and inventory data into actionable procurement decisions:
 
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   15 Retail     │     │   Data Pipeline │     │   5 Supplier    │
+│    Stores       │ ──▶ │   Processing    │ ──▶ │    Orders       │
+│  (JSON Orders)  │     │   (Batch ETL)   │     │   (JSON Files)  │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
 
-* 
-**Distributed Architecture:** Uses HDFS for storage and Presto/Trino for distributed SQL queries.
+### ⚠️ Key Constraints
 
-
-* 
-**Separation of Concerns:** Clearly separated OLTP (PostgreSQL) and Analytical (HDFS) layers.
-
-
+| Constraint | Description |
+|------------|-------------|
+| **Batch Only** | No streaming technologies (Kafka/Flink/Spark Streaming) allowed |
+| **Distributed** | Uses HDFS for storage and Trino for distributed SQL queries |
+| **Separation** | Clearly separated OLTP (PostgreSQL) and Analytical (HDFS) layers |
+| **Time Window** | Pipeline runs in 22:00 - 00:00 batch window |
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ System Architecture
 
-The system follows a modular distributed architecture as shown in the diagram:
-
-1. 
-**Landing Zone (HDFS):** Ingests raw JSON/CSV files from Points of Sale (POS) and Warehouses.
-
-
-2. 
-**Master Data (PostgreSQL):** Stores product catalogs, supplier info, and replenishment rules.
-
-
-3. 
-**Compute Layer (Presto):** Joins HDFS files with SQL tables to perform heavy aggregations.
-
-
-4. 
-**Output Layer:** Generates standardized supplier order files (JSON).
-
-
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                         PROCUREMENT PIPELINE ARCHITECTURE                        │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│   DATA SOURCES                                                                   │
+│   ════════════                                                                   │
+│   ┌──────────────┐    ┌──────────────┐    ┌──────────────┐                      │
+│   │   15 POS     │    │  5 Warehouses │    │  PostgreSQL  │                      │
+│   │   Stores     │    │    Stock      │    │  Master Data │                      │
+│   │  (JSON)      │    │   (CSV)       │    │  (Products,  │                      │
+│   │              │    │              │    │  Suppliers)  │                      │
+│   └──────┬───────┘    └──────┬───────┘    └──────┬───────┘                      │
+│          │                   │                   │                               │
+│          ▼                   ▼                   │                               │
+│   ┌─────────────────────────────────────┐       │                               │
+│   │         HDFS DATA LAKE              │       │                               │
+│   │  ┌─────────────┐ ┌─────────────┐   │       │                               │
+│   │  │ /raw/orders │ │ /raw/stock  │   │       │                               │
+│   │  │  105 files  │ │  35 files   │   │       │                               │
+│   │  └─────────────┘ └─────────────┘   │       │                               │
+│   └──────────────────┬──────────────────┘       │                               │
+│                      │                           │                               │
+│                      ▼                           ▼                               │
+│   ┌─────────────────────────────────────────────────────────────────┐           │
+│   │                      TRINO QUERY ENGINE                          │           │
+│   │         (Federated SQL across HDFS + PostgreSQL)                │           │
+│   │                                                                  │           │
+│   │  ┌─────────────────┐              ┌─────────────────┐          │           │
+│   │  │  Hive Catalog   │              │ PostgreSQL      │          │           │
+│   │  │  (HDFS Data)    │              │ Catalog         │          │           │
+│   │  └─────────────────┘              └─────────────────┘          │           │
+│   └──────────────────────────┬──────────────────────────────────────┘           │
+│                              │                                                   │
+│                              ▼                                                   │
+│   ┌─────────────────────────────────────────────────────────────────┐           │
+│   │                    PYTHON PROCESSING                             │           │
+│   │                                                                  │           │
+│   │  ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐   │           │
+│   │  │ Aggregate  │ │ Calculate  │ │ Apply      │ │ Generate   │   │           │
+│   │  │ Demand     │ │ Net Demand │ │ Business   │ │ Reports    │   │           │
+│   │  │            │ │            │ │ Rules      │ │            │   │           │
+│   │  └────────────┘ └────────────┘ └────────────┘ └────────────┘   │           │
+│   └──────────────────────────┬──────────────────────────────────────┘           │
+│                              │                                                   │
+│                              ▼                                                   │
+│   ┌─────────────────────────────────────────────────────────────────┐           │
+│   │                      OUTPUT LAYER                                │           │
+│   │                                                                  │           │
+│   │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │           │
+│   │  │ Supplier    │  │ Exception   │  │ Pipeline    │              │           │
+│   │  │ Orders      │  │ Reports     │  │ Summary     │              │           │
+│   │  │ (5 JSON)    │  │ (JSON+TXT)  │  │ (TXT)       │              │           │
+│   │  └─────────────┘  └─────────────┘  └─────────────┘              │           │
+│   └─────────────────────────────────────────────────────────────────┘           │
+│                                                                                  │
+│   ORCHESTRATION                                                                  │
+│   ═════════════                                                                  │
+│   ┌─────────────────────────────────────────────────────────────────┐           │
+│   │                    APACHE AIRFLOW                                │           │
+│   │         Schedule: Daily at 22:00 | DAG: procurement_daily       │           │
+│   └─────────────────────────────────────────────────────────────────┘           │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## 💻 Technical Stack
 
-* 
-**Storage:** HDFS (Distributed File System).
+| Component | Technology | Version | Purpose |
+|-----------|------------|---------|---------|
+| **Container Platform** | Docker Compose | 3.x | Infrastructure orchestration |
+| **Data Lake** | Apache HDFS | 3.2.1 | Distributed file storage |
+| **OLTP Database** | PostgreSQL | 13 | Master data storage |
+| **Query Engine** | Trino | 435 | Distributed SQL processing |
+| **Orchestration** | Apache Airflow | 2.7.3 | Workflow automation |
+| **Programming** | Python | 3.10+ | Data processing scripts |
+| **Web UI** | pgAdmin | Latest | Database management |
 
+### Python Dependencies
 
-* 
-**Database (OLTP):** PostgreSQL.
-
-
-* 
-**Query Engine:** Presto / Trino.
-
-
-* 
-**Language:** Python (for data generation, orchestration, and scripts).
-
-
-* 
-**Orchestration:** Bash/Python scripts (simulating a 22:00 - 00:00 batch window).
-
-
+```
+pandas>=2.0.0          # Data manipulation
+trino>=0.327.0         # Trino Python client
+psycopg2-binary>=2.9.0 # PostgreSQL client
+faker>=18.0.0          # Test data generation
+```
 
 ---
 
-## 📊 Business Logic & Data Modeling
+## 📊 Business Logic
 
 ### 1. Net Demand Formula
 
-The core of the replenishment logic uses the following formula:
+The core replenishment calculation:
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                                                                  │
+│   Net Demand = Total Orders - Available Stock + Safety Stock    │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Example Calculation:**
+
+```
+Product: Cola 2L (SKU-0012)
+├── Total Orders from 15 stores:  2,644 units
+├── Available Stock in warehouses:  774 units
+├── Safety Stock required:         100 units
+└── Net Demand = 2,644 - 774 + 100 = 1,970 units
+```
 
 ### 2. Procurement Rules
 
-* 
-**MOQ:** Minimum Order Quantity must be respected for every supplier order.
+| Rule | Description | Example |
+|------|-------------|---------|
+| **MOQ** | Minimum Order Quantity per supplier | Min 100 units |
+| **Case Size** | Orders rounded UP to nearest case | 6 units/case |
+| **Priority** | Based on order volume | >5000 = HIGH |
 
+**Case Size Rounding Example:**
 
-* 
-**Rounding:** Order quantities must be rounded to the nearest **Case Size** or **Pack Size**.
+```
+Net Demand: 1,970 units
+Case Size: 6 units
+────────────────────────────
+Cases Needed: ⌈1970 ÷ 6⌉ = 329 cases
+Order Quantity: 329 × 6 = 1,974 units ✓
+```
 
+### 3. Exception Detection
 
+The system automatically detects anomalies:
+
+| Exception Type | Threshold | Severity |
+|----------------|-----------|----------|
+| HIGH_DEMAND | > 2,000 units | 🔴 HIGH |
+| LOW_STOCK | Stock < 30% of demand | 🔴 HIGH |
+| CRITICAL_STOCK | Stock < 10% of demand | 🔴 CRITICAL |
+| MISSING_SUPPLIER | No supplier assigned | 🔴 HIGH |
+| DEMAND_STOCK_GAP | Net demand > 3x stock | 🟡 MEDIUM |
 
 ---
 
 ## 📂 Project Structure
 
-```text
-.
-├── config/              # Configuration files (DB connections, HDFS paths)
-├── data/
-│   ├── raw/             # Local simulation of POS/Warehouse files
-│   └── master/          # SQL scripts for PostgreSQL initialization
-├── scripts/
-[cite_start]│   ├── data_gen.py      # Faker script to generate mock data [cite: 203]
-[cite_start]│   ├── ingest_hdfs.py   # Moves data from local to HDFS [cite: 96]
-[cite_start]│   ├── compute_demand.py# Triggers Presto queries [cite: 88]
-[cite_start]│   └── generate_orders.py# Exports final JSON for suppliers [cite: 55]
-├── sql/
-[cite_start]│   ├── schema.sql       # PostgreSQL table definitions [cite: 112]
-[cite_start]│   └── analysis.sql     # Presto SQL for demand calculation [cite: 88]
-[cite_start]├── logs/                # Exception reports and daily logs [cite: 60, 110]
-├── docker-compose.yml   # Infrastructure setup (Postgres, HDFS, Presto)
-└── README.md            # You are here
-
+```
+Big-data/
+├── README.MD                          # This file
+├── TODO.MD                            # Project roadmap & task tracking
+│
+└── procurement-pipeline/
+    │
+    ├── docker-compose.yml             # Infrastructure definition
+    │
+    ├── airflow/
+    │   ├── dags/
+    │   │   └── procurement_dag.py     # Airflow DAG (22:00 schedule)
+    │   └── logs/                      # Airflow execution logs
+    │
+    ├── config/
+    │   ├── trino/
+    │   │   └── postgresql.properties  # Trino PostgreSQL catalog
+    │   └── trino-config/
+    │       └── config.properties      # Trino server config
+    │
+    ├── data/
+    │   ├── raw/
+    │   │   ├── orders/                # Daily POS order files (JSON)
+    │   │   │   ├── pos_1_2025-12-28.json
+    │   │   │   ├── pos_1_2025-12-29.json
+    │   │   │   └── ... (105 files: 15 POS × 7 days)
+    │   │   │
+    │   │   └── stock/                 # Daily warehouse snapshots (CSV)
+    │   │       ├── warehouse_1_2025-12-28.csv
+    │   │       └── ... (35 files: 5 warehouses × 7 days)
+    │   │
+    │   └── output/
+    │       ├── replenishment_2026-01-03.csv
+    │       ├── pipeline_run_2026-01-03.txt
+    │       │
+    │       ├── supplier_orders/       # JSON orders per supplier
+    │       │   ├── BevCo_Distributors_2026-01-03.json
+    │       │   ├── DairyFresh_LLC_2026-01-03.json
+    │       │   ├── ElectroSupply_Co_2026-01-03.json
+    │       │   ├── FreshMart_Wholesale_2026-01-03.json
+    │       │   └── TechGear_Plus_2026-01-03.json
+    │       │
+    │       └── exceptions/            # Quality control reports
+    │           ├── exception_report_2026-01-03.json
+    │           └── exception_summary_2026-01-03.txt
+    │
+    ├── scripts/
+    │   ├── data_gen.py                # Faker-based test data generator
+    │   ├── generate_orders.py         # Order generation script
+    │   ├── ingest_hdfs.py             # HDFS data ingestion
+    │   ├── upload_to_hdfs.ps1         # PowerShell upload script
+    │   ├── validate_data_quality.py   # Data quality validation
+    │   ├── compute_demand.py          # Main demand calculation
+    │   ├── export_orders.py           # Supplier JSON generation
+    │   ├── generate_exceptions.py     # Anomaly detection & reporting
+    │   ├── run_phase4.py              # Phase 4 orchestration
+    │   ├── run_pipeline.py            # Master pipeline orchestrator
+    │   ├── test_connection.py         # Infrastructure connectivity test
+    │   ├── test_trino_catalog.py      # Trino catalog validation
+    │   └── test_system.py             # Full system integration test
+    │
+    └── sql/
+        └── postgres/
+            ├── schema.sql             # Database schema
+            └── init_master_data.sql   # Seed data (products, suppliers)
 ```
 
 ---
 
-## 🚀 Project Status & Completed Phases
+## 🚀 Quick Start Guide
 
-### ✅ Phase 1: Infrastructure Setup (COMPLETED)
-- Docker orchestration with PostgreSQL, HDFS, and Trino
-- Master data schema with 49 products, 10 suppliers
-- Test data generation with 15 POS locations
-- All services verified and running
+### Prerequisites
 
-### ✅ Phase 2: Data Ingestion (COMPLETED)
-- HDFS directory hierarchy established
-- 7 days of historical data uploaded (Dec 28 - Jan 3, 2026)
-- Data quality validation passed (15,150 orders, 250 stock records)
+- Docker Desktop installed and running
+- Python 3.10+ with pip
+- Git
 
-### ✅ Phase 3: Analytical Processing (COMPLETED)
-- **Trino distributed query engine configured**
-- **Demand aggregation:** 121,840 units ordered across 50 SKUs
-- **Net demand calculation:** Using formula `Net Demand = Total Orders - Stock + Safety Stock`
-- **Business rules applied:** MOQ compliance and case size rounding
-- **Output:** 24 SKUs need replenishment (32,748 units from 5 suppliers)
+### 1. Clone Repository
 
-### 🔄 Phase 4: Output Generation (IN PROGRESS)
-- CSV report generated with replenishment recommendations
-- Next: JSON supplier order files
+```bash
+git clone https://github.com/mohamedamineelabidi/Big-data.git
+cd Big-data/procurement-pipeline
+```
 
-### 📋 To-Do List (Roadmap)
+### 2. Start Infrastructure
 
-1. [x] **Phase 1:** Setup Docker environment and generate test data with `Faker`.
+```bash
+docker-compose up -d
+```
 
+### 3. Install Python Dependencies
 
-2. [x] **Phase 2:** Implement HDFS ingestion with the `/raw/YYYY-MM-DD/` hierarchy.
+```bash
+pip install pandas trino psycopg2-binary faker
+```
 
+### 4. Verify Services
 
-3. [x] **Phase 3:** Create PostgreSQL master tables and link them to Trino.
+```bash
+python scripts/test_connection.py
+```
 
+### 5. Run Full Pipeline
 
-4. [x] **Phase 4 (Partial):** Build the SQL logic for net demand and supplier rules.
+```bash
+# Run for specific date
+python scripts/run_pipeline.py --date 2026-01-03
 
+# Or run system test
+python scripts/test_system.py
+```
 
-5. [ ] **Phase 5:** Automate the end-to-end pipeline and generate Exception Reports.
+### 6. Access Web Interfaces
 
-
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| **Airflow UI** | http://localhost:8081 | admin / admin |
+| **Trino UI** | http://localhost:8080 | admin (no password) |
+| **pgAdmin** | http://localhost:5050 | admin@admin.com / admin |
+| **HDFS UI** | http://localhost:9870 | No auth required |
 
 ---
 
-## 🤖 Context for AI (GitHub Copilot)
+## 📜 Scripts Documentation
 
-* **Variable Naming:** Use clear business terms (e.g., `sku_id`, `moq`, `safety_stock`).
-* **Context:** This is a **Data Engineering** project. When suggesting code, prioritize efficient data handling and distributed computing principles.
-* **Constraint:** Avoid any library that implies real-time streaming. Stick to `os`, `psycopg2`, `presto-python-client`, and `pandas` for local processing if needed.
+### Core Pipeline Scripts
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `run_pipeline.py` | Master orchestrator | `python scripts/run_pipeline.py --date 2026-01-03` |
+| `compute_demand.py` | Demand calculation | `python scripts/compute_demand.py` |
+| `export_orders.py` | Supplier JSON export | `python scripts/export_orders.py --date 2026-01-03` |
+| `generate_exceptions.py` | Exception reporting | `python scripts/generate_exceptions.py --date 2026-01-03` |
+
+### Utility Scripts
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `test_system.py` | Integration test (37 tests) | `python scripts/test_system.py` |
+| `test_connection.py` | Service connectivity | `python scripts/test_connection.py` |
+| `data_gen.py` | Generate test data | `python scripts/data_gen.py --days 7` |
+
+### CLI Options
+
+```bash
+# Master Pipeline
+python scripts/run_pipeline.py --date 2026-01-03     # Specific date
+python scripts/run_pipeline.py --replay 7            # Last 7 days
+python scripts/run_pipeline.py --validate-only       # Validation only
+python scripts/run_pipeline.py --skip-validation     # Skip validation
+
+# Export Orders
+python scripts/export_orders.py --date 2026-01-03 --output data
+```
 
 ---
 
-### Next Step for You
+## 📦 Data Models
 
-Copy the content above into a file named `README.md` in your VS Code project folder. Once you do that, **would you like me to generate the `data_gen.py` script using the Faker library so you can start creating your test data?**
+### Input: Order JSON Schema
+
+```json
+{
+  "pos_id": "POS-001",
+  "date": "2026-01-03",
+  "items": [
+    {
+      "sku": "SKU-0012",
+      "quantity": 24,
+      "unit_price": 2.99
+    }
+  ]
+}
+```
+
+### Input: Stock CSV Schema
+
+| Column | Type | Description |
+|--------|------|-------------|
+| warehouse_id | string | Warehouse identifier |
+| sku | string | Product SKU |
+| available_stock | integer | Units available |
+| reserved_stock | integer | Units reserved |
+| date | date | Snapshot date |
+
+### Output: Supplier Order JSON
+
+```json
+{
+  "order_id": "ORD-20260103-006-001",
+  "supplier_id": "SUP-006",
+  "supplier_name": "BevCo Distributors",
+  "order_date": "2026-01-03",
+  "requested_delivery_date": "2026-01-05",
+  "status": "PENDING",
+  "priority": "HIGH",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0001",
+      "product_name": "Organic Apple Juice",
+      "category": "Beverages",
+      "quantity_ordered": 1344,
+      "cases": 56,
+      "case_size": 24,
+      "net_demand": 1333.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 7,
+    "total_units": 10494,
+    "total_cases": 874
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-04T03:52:28",
+    "pipeline_version": "1.0"
+  }
+}
+```
+
+### Output: Exception Report
+
+```json
+{
+  "report_date": "2026-01-03",
+  "generated_at": "2026-01-04T02:58:07",
+  "summary": {
+    "total_skus_analyzed": 24,
+    "total_exceptions": 30,
+    "by_severity": {
+      "CRITICAL": 0,
+      "HIGH": 28,
+      "MEDIUM": 2
+    }
+  },
+  "exceptions": [
+    {
+      "type": "HIGH_DEMAND",
+      "severity": "HIGH",
+      "sku": "SKU-0022",
+      "product_name": "Bagels 6pk",
+      "metric_value": 2852,
+      "threshold": 2000,
+      "recommendation": "Consider expedited supplier contact"
+    }
+  ]
+}
+```
+
+---
+
+## 📈 Pipeline Results
+
+### Latest Execution (2026-01-03)
+
+```
+╔════════════════════════════════════════════════════════════════════╗
+║                    PIPELINE EXECUTION SUMMARY                       ║
+╠════════════════════════════════════════════════════════════════════╣
+║  📅 Processing Date:     2026-01-03                                 ║
+║  ⏱️  Execution Time:      1.06 seconds                              ║
+║  📊 Status:              ✅ SUCCESS                                 ║
+╠════════════════════════════════════════════════════════════════════╣
+║  📦 INPUT DATA                                                      ║
+║     • Order Files:        105 JSON files                            ║
+║     • Stock Files:        35 CSV files                              ║
+║     • Order Items:        15,150 items                              ║
+║     • Stock Records:      250 records                               ║
+║     • POS Locations:      15 stores                                 ║
+║     • Warehouses:         5 locations                               ║
+╠════════════════════════════════════════════════════════════════════╣
+║  📊 PROCESSING                                                      ║
+║     • Total Demand:       121,840 units                             ║
+║     • Total Stock:        58,401 units                              ║
+║     • Unique SKUs:        50 products                               ║
+║     • Products (Master):  49 in database                            ║
+╠════════════════════════════════════════════════════════════════════╣
+║  📤 OUTPUT DATA                                                     ║
+║     • SKUs to Reorder:    24 products                               ║
+║     • Total Units:        32,748 units                              ║
+║     • Suppliers:          5 orders generated                        ║
+║     • Exceptions:         30 (0 critical)                           ║
+╚════════════════════════════════════════════════════════════════════╝
+```
+
+### Supplier Orders Generated
+
+| Supplier | SKUs | Units | Cases | Priority |
+|----------|------|-------|-------|----------|
+| BevCo Distributors | 7 | 10,494 | 874 | 🔴 HIGH |
+| FreshMart Wholesale | 5 | 6,744 | 562 | 🔴 HIGH |
+| DairyFresh LLC | 5 | 6,594 | 549 | 🔴 HIGH |
+| ElectroSupply Co | 4 | 5,461 | 455 | 🔴 HIGH |
+| TechGear Plus | 3 | 3,455 | 288 | 🟡 MEDIUM |
+| **TOTAL** | **24** | **32,748** | **2,728** | |
+
+### Top 10 Items to Reorder
+
+| Rank | SKU | Product | Category | Order Qty | Supplier |
+|------|-----|---------|----------|-----------|----------|
+| 1 | SKU-0031 | USB Cable 2m | Electronics | 2,200 | ElectroSupply Co |
+| 2 | SKU-0021 | Croissant Pack | Bakery | 2,040 | FreshMart Wholesale |
+| 3 | SKU-0012 | Cola 2L | Beverages | 1,974 | BevCo Distributors |
+| 4 | SKU-0005 | Almond Milk | Beverages | 1,728 | BevCo Distributors |
+| 5 | SKU-0045 | Cream Cheese | Dairy | 1,692 | DairyFresh LLC |
+| 6 | SKU-0024 | Baguette | Bakery | 1,540 | FreshMart Wholesale |
+| 7 | SKU-0043 | Cheddar Cheese | Dairy | 1,510 | DairyFresh LLC |
+| 8 | SKU-0003 | Wireless Mouse | Electronics | 1,440 | ElectroSupply Co |
+| 9 | SKU-0022 | Bagels 6pk | Bakery | 1,424 | FreshMart Wholesale |
+| 10 | SKU-0011 | Orange Juice 1L | Beverages | 1,416 | BevCo Distributors |
+
+---
+
+## ✅ Project Phases Completed
+
+### Phase 1: Infrastructure Setup ✅
+
+- [x] Docker Compose with PostgreSQL, HDFS, Trino, pgAdmin, Airflow
+- [x] PostgreSQL schema with products, suppliers, replenishment_rules
+- [x] Master data: 49 products, 10 suppliers, 49 rules
+- [x] All services verified and running
+
+### Phase 2: Data Ingestion ✅
+
+- [x] HDFS directory hierarchy (`/raw/orders/`, `/raw/stock/`)
+- [x] 7 days of test data generated (Dec 28 - Jan 3)
+- [x] 105 order files (15 POS × 7 days)
+- [x] 35 stock files (5 warehouses × 7 days)
+- [x] Data quality validation implemented
+
+### Phase 3: Analytical Processing ✅
+
+- [x] Trino connectors: PostgreSQL catalog, Hive catalog
+- [x] Demand aggregation: 121,840 units across 50 SKUs
+- [x] Net demand computation with safety stock
+- [x] Business rules: MOQ and case size rounding
+- [x] Result: 24 SKUs require 32,748 units
+
+### Phase 4: Output Generation ✅
+
+- [x] Supplier order export (5 JSON files)
+- [x] Exception reporting (30 exceptions detected)
+- [x] Order priorities assigned (4 HIGH, 1 MEDIUM)
+- [x] Human-readable reports generated
+
+### Phase 5: Orchestration ✅
+
+- [x] Master orchestrator (`run_pipeline.py`)
+- [x] Airflow DAG scheduled at 22:00 daily
+- [x] Historical replay capability (`--replay N`)
+- [x] System integration tests (37 tests, 100% pass)
+
+---
+
+## 🧪 System Tests
+
+Run the comprehensive test suite:
+
+```bash
+python scripts/test_system.py
+```
+
+### Test Categories
+
+| Category | Tests | Description |
+|----------|-------|-------------|
+| Docker Services | 5 | Container health checks |
+| PostgreSQL | 4 | Connection & data validation |
+| Trino | 2 | Query engine verification |
+| Data Files | 3 | File existence & counts |
+| Demand Module | 4 | Data loading & processing |
+| Export Module | 4 | JSON generation |
+| Exception Module | 4 | Report generation |
+| Orchestrator | 3 | Infrastructure validation |
+| Airflow DAG | 4 | DAG syntax & configuration |
+| End-to-End | 4 | Output file verification |
+| **TOTAL** | **37** | **All passing ✅** |
+
+---
+
+## 🐳 Docker Services
+
+```yaml
+services:
+  postgres:        # Master data storage
+  namenode:        # HDFS name node
+  datanode:        # HDFS data node
+  trino:           # Query engine
+  pgadmin:         # Database UI
+  airflow:         # Workflow orchestration
+```
+
+### Service Ports
+
+| Service | Internal Port | External Port |
+|---------|---------------|---------------|
+| PostgreSQL | 5432 | 5432 |
+| HDFS Namenode | 9000, 9870 | 9000, 9870 |
+| Trino | 8080 | 8080 |
+| Airflow | 8080 | 8081 |
+| pgAdmin | 80 | 5050 |
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**1. Airflow not starting**
+```bash
+# Create airflow database
+docker exec procurement_postgres psql -U admin -d procurement_db -c "CREATE DATABASE airflow_db;"
+docker restart procurement_airflow
+```
+
+**2. Trino connection refused**
+```bash
+# Check Trino logs
+docker logs procurement_trino
+# Verify config
+cat config/trino-config/config.properties
+```
+
+**3. HDFS not accessible**
+```bash
+# Check HDFS health
+docker logs procurement_namenode
+# Verify safe mode
+docker exec procurement_namenode hdfs dfsadmin -safemode get
+```
+
+**4. PostgreSQL connection issues**
+```bash
+# Test connection
+docker exec procurement_postgres psql -U admin -d procurement_db -c "SELECT 1"
+```
+
+---
+
+## 🤖 AI Context (GitHub Copilot)
+
+When working with this project, Copilot should:
+
+- **Variable Naming:** Use clear business terms (`sku`, `moq`, `safety_stock`, `net_demand`)
+- **Context:** This is a Data Engineering / ETL project, not a web application
+- **Constraint:** No streaming - batch processing only
+- **Query Engine:** Use `trino` Python client, not `prestodb`
+- **Data Format:** JSON for orders, CSV for stock, PostgreSQL for master data
+
+---
+
+## 👥 Team
+
+**Project:** Big Data Fundamentals (Fondements Big Data)  
+**Institution:** ENSA Al Hoceima  
+**Academic Year:** 2025-2026
+
+---
+
+## 📄 License
+
+Academic project - ENSA Al Hoceima © 2025-2026

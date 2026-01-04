@@ -163,16 +163,30 @@
 
 **Goal:** Automate the pipeline and ensure auditability.
 
-* [ ] 5.1. Master Orchestrator: Build a `main.py` (Python) or Bash script to run all stages in sequence.
+* [x] **5.1. Master Orchestrator**: `scripts/run_pipeline.py` ✅
+    * Complete end-to-end pipeline execution ✅
+    * Infrastructure validation before execution ✅
+    * 4-stage execution: validate → demand → export → exceptions ✅
+    * Detailed logging and error handling ✅
+    * Execution summary saved to `data/output/pipeline_run_{date}.txt` ✅
+    * **Execution time:** 1.01 seconds for full pipeline ✅
 
 
-* [ ] 5.2. Time-Window Simulation: Ensure the process runs within the 22:00–00:00 batch window.
+* [x] **5.2. Time-Window Simulation**: Airflow DAG configured for 22:00 batch window ✅
+    * Airflow container added to docker-compose.yml ✅
+    * DAG: `airflow/dags/procurement_dag.py` ✅
+    * Schedule: `0 22 * * *` (22:00 daily) ✅
+    * Airflow Web UI: `http://localhost:8081` ✅
+    * Task dependencies with parallel execution ✅
 
 
-* [ ] 5.3. Reproducibility Check: Verify the pipeline can re-process any past date by replaying historical raw data.
+* [x] **5.3. Reproducibility Check**: Historical replay capability ✅
+    * CLI argument `--replay N` for last N days ✅
+    * CLI argument `--date YYYY-MM-DD` for specific date ✅
+    * Tested with 7 days of historical data ✅
 
 
-* [ ] 5.4. Final Presentation: Summarize architecture, data modeling, and team critique for the deliverable.
+* [ ] **5.4. Final Presentation**: Summarize architecture, data modeling, and team critique for the deliverable.
 
 
 
