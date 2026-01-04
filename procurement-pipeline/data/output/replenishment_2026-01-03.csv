@@ -1,0 +1,25 @@
+sku,total_demand,available_stock,product_name,category,case_size,minimum_order_qty,safety_stock_level,supplier_id,supplier_name,net_demand,cases_needed,order_quantity
+SKU-0022,2852,1468,Bagels 6pk,Bakery,8.0,20.0,40.0,SUP-004,FreshMart Wholesale,1424.0,178,1424.0
+SKU-0011,2661,1311,Orange Juice 1L,Beverages,12.0,30.0,60.0,SUP-006,BevCo Distributors,1410.0,118,1416.0
+SKU-0003,2648,1412,Wireless Mouse,Electronics,10.0,100.0,200.0,SUP-005,ElectroSupply Co,1436.0,144,1440.0
+SKU-0012,2644,774,Cola 2L,Beverages,6.0,40.0,100.0,SUP-006,BevCo Distributors,1970.0,329,1974.0
+SKU-0021,2595,588,Croissant Pack,Bakery,6.0,15.0,30.0,SUP-004,FreshMart Wholesale,2037.0,340,2040.0
+SKU-0035,2583,1398,Headphones,Electronics,15.0,30.0,80.0,SUP-009,TechGear Plus,1265.0,85,1275.0
+SKU-0034,2581,1354,Keyboard Wireless,Electronics,10.0,25.0,60.0,SUP-005,ElectroSupply Co,1287.0,129,1290.0
+SKU-0032,2552,1443,Bluetooth Speaker,Electronics,12.0,20.0,50.0,SUP-009,TechGear Plus,1159.0,97,1164.0
+SKU-0005,2504,856,Almond Milk,Beverages,12.0,40.0,80.0,SUP-006,BevCo Distributors,1728.0,144,1728.0
+SKU-0031,2493,640,USB Cable 2m,Electronics,50.0,100.0,300.0,SUP-005,ElectroSupply Co,2153.0,44,2200.0
+SKU-0001,2482,1249,Organic Apple Juice,Beverages,24.0,50.0,100.0,SUP-006,BevCo Distributors,1333.0,56,1344.0
+SKU-0015,2455,1188,Green Tea,Beverages,20.0,25.0,50.0,SUP-006,BevCo Distributors,1317.0,66,1320.0
+SKU-0033,2438,1452,Webcam HD,Electronics,8.0,15.0,30.0,SUP-009,TechGear Plus,1016.0,127,1016.0
+SKU-0042,2434,1153,Greek Yogurt,Dairy,16.0,50.0,120.0,SUP-008,DairyFresh LLC,1401.0,88,1408.0
+SKU-0002,2417,1149,Whole Wheat Bread,Bakery,12.0,20.0,50.0,SUP-004,FreshMart Wholesale,1318.0,110,1320.0
+SKU-0014,2329,1121,Energy Drink,Beverages,24.0,30.0,80.0,SUP-006,BevCo Distributors,1288.0,54,1296.0
+SKU-0024,2325,842,Baguette,Bakery,10.0,25.0,50.0,SUP-004,FreshMart Wholesale,1533.0,154,1540.0
+SKU-0045,2313,691,Cream Cheese,Dairy,12.0,25.0,60.0,SUP-008,DairyFresh LLC,1682.0,141,1692.0
+SKU-0044,2282,1127,Butter,Dairy,20.0,35.0,80.0,SUP-008,DairyFresh LLC,1235.0,62,1240.0
+SKU-0013,2225,970,Mineral Water 500ml,Beverages,24.0,50.0,150.0,SUP-006,BevCo Distributors,1405.0,59,1416.0
+SKU-0043,2197,758,Cheddar Cheese,Dairy,10.0,30.0,70.0,SUP-008,DairyFresh LLC,1509.0,151,1510.0
+SKU-0041,2157,1513,Milk 2%,Dairy,12.0,40.0,100.0,SUP-008,DairyFresh LLC,744.0,62,744.0
+SKU-0004,2121,1600,"LED Monitor 24""",Electronics,1.0,5.0,10.0,SUP-005,ElectroSupply Co,531.0,531,531.0
+SKU-0023,2102,1725,Muffins Assorted,Bakery,12.0,18.0,35.0,SUP-004,FreshMart Wholesale,412.0,35,420.0

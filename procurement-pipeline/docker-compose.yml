@@ -55,8 +55,12 @@ services:
     volumes:
       - ./config/trino:/etc/trino/catalog
       - ./config/trino-config:/etc/trino
+      - ./data/raw:/data/raw:ro
     networks:
       - procurement_network
+    depends_on:
+      - postgres
+      - namenode
 
   # pgAdmin - PostgreSQL Web Interface
   pgadmin:

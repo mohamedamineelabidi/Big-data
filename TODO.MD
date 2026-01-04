@@ -91,12 +91,15 @@
 
 ## Phase 3: Distributed Analytical Processing
 
-**Goal:** Use Presto to aggregate data and calculate replenishment needs.
+**Goal:** Use Trino to aggregate data and calculate replenishment needs.
 
-* [ ] 3.1. Presto Connector Config: Connect Presto to HDFS (Hive catalog) and PostgreSQL (Postgres catalog).
+* [x] 3.1. Trino Connector Config: Connect Trino to HDFS (Hive catalog) and PostgreSQL (Postgres catalog). ✅
+    * PostgreSQL catalog configured and tested ✅
+    * Hive catalog configured for local file access ✅
+    * Successfully querying master data through Trino ✅
 
 
-* [ ] 3.2. Demand Aggregation: Write Presto SQL to aggregate daily customer demand per SKU across all stores.
+* [ ] 3.2. Demand Aggregation: Write Trino SQL to aggregate daily customer demand per SKU across all stores.
 
 
 * [ ] 3.3. Net Demand Computation: Implement the required formula:
