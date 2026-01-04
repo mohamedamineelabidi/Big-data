@@ -1,0 +1,70 @@
+{
+  "order_id": "ORD-20260103-005-001",
+  "supplier_id": "SUP-005",
+  "supplier_name": "ElectroSupply Co",
+  "order_date": "2026-01-03",
+  "requested_delivery_date": "2026-01-05",
+  "status": "PENDING",
+  "priority": "HIGH",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0003",
+      "product_name": "Wireless Mouse",
+      "category": "Electronics",
+      "quantity_ordered": 1440,
+      "cases": 144,
+      "case_size": 10,
+      "net_demand": 1436.0,
+      "available_stock": 1412.0,
+      "total_demand": 2648.0
+    },
+    {
+      "line_number": 2,
+      "sku": "SKU-0004",
+      "product_name": "LED Monitor 24\"",
+      "category": "Electronics",
+      "quantity_ordered": 531,
+      "cases": 531,
+      "case_size": 1,
+      "net_demand": 531.0,
+      "available_stock": 1600.0,
+      "total_demand": 2121.0
+    },
+    {
+      "line_number": 3,
+      "sku": "SKU-0031",
+      "product_name": "USB Cable 2m",
+      "category": "Electronics",
+      "quantity_ordered": 2200,
+      "cases": 44,
+      "case_size": 50,
+      "net_demand": 2153.0,
+      "available_stock": 640.0,
+      "total_demand": 2493.0
+    },
+    {
+      "line_number": 4,
+      "sku": "SKU-0034",
+      "product_name": "Keyboard Wireless",
+      "category": "Electronics",
+      "quantity_ordered": 1290,
+      "cases": 129,
+      "case_size": 10,
+      "net_demand": 1287.0,
+      "available_stock": 1354.0,
+      "total_demand": 2581.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 4,
+    "total_units": 5461,
+    "total_cases": 848
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-04T04:01:44.771150",
+    "pipeline_version": "1.0",
+    "source_file": "replenishment_2026-01-03.csv"
+  }
+}

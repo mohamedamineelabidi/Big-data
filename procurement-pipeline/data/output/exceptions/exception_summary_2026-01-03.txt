@@ -1,0 +1,198 @@
+======================================================================
+PROCUREMENT EXCEPTION REPORT
+======================================================================
+Report Date: 2026-01-03
+Generated: 2026-01-04T04:01:44.788686
+
+----------------------------------------------------------------------
+SUMMARY
+----------------------------------------------------------------------
+SKUs Analyzed: 24
+Total Exceptions: 30
+Total Demand: 58,390 units
+Total Order Quantity: 32,748 units
+
+By Severity:
+  • HIGH: 28
+  • MEDIUM: 2
+
+By Type:
+  • HIGH_DEMAND: 24
+  • LOW_STOCK: 4
+  • DEMAND_STOCK_GAP: 2
+
+----------------------------------------------------------------------
+CRITICAL & HIGH PRIORITY EXCEPTIONS
+----------------------------------------------------------------------
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0022 - Bagels 6pk
+  Description: Demand of 2852 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: FreshMart Wholesale
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0011 - Orange Juice 1L
+  Description: Demand of 2661 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: BevCo Distributors
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0003 - Wireless Mouse
+  Description: Demand of 2648 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: ElectroSupply Co
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0012 - Cola 2L
+  Description: Demand of 2644 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: BevCo Distributors
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0021 - Croissant Pack
+  Description: Demand of 2595 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: FreshMart Wholesale
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0035 - Headphones
+  Description: Demand of 2583 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: TechGear Plus
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0034 - Keyboard Wireless
+  Description: Demand of 2581 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: ElectroSupply Co
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0032 - Bluetooth Speaker
+  Description: Demand of 2552 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: TechGear Plus
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0005 - Almond Milk
+  Description: Demand of 2504 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: BevCo Distributors
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0031 - USB Cable 2m
+  Description: Demand of 2493 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: ElectroSupply Co
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0001 - Organic Apple Juice
+  Description: Demand of 2482 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: BevCo Distributors
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0015 - Green Tea
+  Description: Demand of 2455 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: BevCo Distributors
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0033 - Webcam HD
+  Description: Demand of 2438 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: TechGear Plus
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0042 - Greek Yogurt
+  Description: Demand of 2434 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: DairyFresh LLC
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0002 - Whole Wheat Bread
+  Description: Demand of 2417 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: FreshMart Wholesale
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0014 - Energy Drink
+  Description: Demand of 2329 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: BevCo Distributors
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0024 - Baguette
+  Description: Demand of 2325 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: FreshMart Wholesale
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0045 - Cream Cheese
+  Description: Demand of 2313 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: DairyFresh LLC
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0044 - Butter
+  Description: Demand of 2282 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: DairyFresh LLC
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0013 - Mineral Water 500ml
+  Description: Demand of 2225 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: BevCo Distributors
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0043 - Cheddar Cheese
+  Description: Demand of 2197 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: DairyFresh LLC
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0041 - Milk 2%
+  Description: Demand of 2157 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: DairyFresh LLC
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0004 - LED Monitor 24"
+  Description: Demand of 2121 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: ElectroSupply Co
+
+[HIGH] HIGH_DEMAND
+  SKU: SKU-0023 - Muffins Assorted
+  Description: Demand of 2102 units exceeds threshold of 2000
+  Recommendation: Consider expedited supplier contact or alternative sourcing
+  Supplier: FreshMart Wholesale
+
+[HIGH] LOW_STOCK
+  SKU: SKU-0012 - Cola 2L
+  Description: Stock at 29.3% of demand (low < 30%)
+  Recommendation: Prioritize replenishment; consider safety stock review
+  Supplier: BevCo Distributors
+
+[HIGH] LOW_STOCK
+  SKU: SKU-0021 - Croissant Pack
+  Description: Stock at 22.7% of demand (low < 30%)
+  Recommendation: Prioritize replenishment; consider safety stock review
+  Supplier: FreshMart Wholesale
+
+[HIGH] LOW_STOCK
+  SKU: SKU-0031 - USB Cable 2m
+  Description: Stock at 25.7% of demand (low < 30%)
+  Recommendation: Prioritize replenishment; consider safety stock review
+  Supplier: ElectroSupply Co
+
+[HIGH] LOW_STOCK
+  SKU: SKU-0045 - Cream Cheese
+  Description: Stock at 29.9% of demand (low < 30%)
+  Recommendation: Prioritize replenishment; consider safety stock review
+  Supplier: DairyFresh LLC
+
+======================================================================
+END OF REPORT
+======================================================================

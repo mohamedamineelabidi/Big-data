@@ -1,0 +1,82 @@
+{
+  "order_id": "ORD-20260103-008-001",
+  "supplier_id": "SUP-008",
+  "supplier_name": "DairyFresh LLC",
+  "order_date": "2026-01-03",
+  "requested_delivery_date": "2026-01-05",
+  "status": "PENDING",
+  "priority": "HIGH",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0041",
+      "product_name": "Milk 2%",
+      "category": "Dairy",
+      "quantity_ordered": 744,
+      "cases": 62,
+      "case_size": 12,
+      "net_demand": 744.0,
+      "available_stock": 1513.0,
+      "total_demand": 2157.0
+    },
+    {
+      "line_number": 2,
+      "sku": "SKU-0042",
+      "product_name": "Greek Yogurt",
+      "category": "Dairy",
+      "quantity_ordered": 1408,
+      "cases": 88,
+      "case_size": 16,
+      "net_demand": 1401.0,
+      "available_stock": 1153.0,
+      "total_demand": 2434.0
+    },
+    {
+      "line_number": 3,
+      "sku": "SKU-0043",
+      "product_name": "Cheddar Cheese",
+      "category": "Dairy",
+      "quantity_ordered": 1510,
+      "cases": 151,
+      "case_size": 10,
+      "net_demand": 1509.0,
+      "available_stock": 758.0,
+      "total_demand": 2197.0
+    },
+    {
+      "line_number": 4,
+      "sku": "SKU-0044",
+      "product_name": "Butter",
+      "category": "Dairy",
+      "quantity_ordered": 1240,
+      "cases": 62,
+      "case_size": 20,
+      "net_demand": 1235.0,
+      "available_stock": 1127.0,
+      "total_demand": 2282.0
+    },
+    {
+      "line_number": 5,
+      "sku": "SKU-0045",
+      "product_name": "Cream Cheese",
+      "category": "Dairy",
+      "quantity_ordered": 1692,
+      "cases": 141,
+      "case_size": 12,
+      "net_demand": 1682.0,
+      "available_stock": 691.0,
+      "total_demand": 2313.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 5,
+    "total_units": 6594,
+    "total_cases": 504
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-04T04:01:44.768648",
+    "pipeline_version": "1.0",
+    "source_file": "replenishment_2026-01-03.csv"
+  }
+}

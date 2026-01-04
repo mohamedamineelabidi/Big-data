@@ -91,15 +91,29 @@
 
 ## Phase 3: Distributed Analytical Processing
 
-**Goal:** Use Presto to aggregate data and calculate replenishment needs.
+**Goal:** Use Trino to aggregate data and calculate replenishment needs.
 
-* [ ] 3.1. Presto Connector Config: Connect Presto to HDFS (Hive catalog) and PostgreSQL (Postgres catalog).
+* [x] 3.1. Trino Connector Config: Connect Trino to HDFS (Hive catalog) and PostgreSQL (Postgres catalog). ✅
+    * PostgreSQL catalog configured and tested ✅
+    * Hive catalog configured for local file access ✅
+    * Successfully querying master data through Trino ✅
 
 
-* [ ] 3.2. Demand Aggregation: Write Presto SQL to aggregate daily customer demand per SKU across all stores.
+* [x] 3.2. Demand Aggregation: Write Trino SQL to aggregate daily customer demand per SKU across all stores. ✅
+    * Built Python analyzer to load orders from 15 POS locations ✅
+    * Aggregated 15,150 order items across 50 unique SKUs ✅
+    * Total demand calculated: 121,840 units ✅
 
 
-* [ ] 3.3. Net Demand Computation: Implement the required formula:
+* [x] 3.3. Net Demand Computation: Implement the required formula: ✅
+    * **Formula Implemented:** `Net Demand = Total Demand - Available Stock + Safety Stock` ✅
+    * Loaded stock from 5 warehouses (250 records) ✅
+    * Fetched master data from PostgreSQL via Trino (49 products) ✅
+    * Applied business rules: MOQ and Case Size rounding ✅
+    * **Result:** 24 SKUs require replenishment, 32,748 units to order ✅
+
+
+* [ ] 3.4. Staging Transformation: Optionally convert raw files to **Parquet** in HDFS for better query performance.
 
 
 
@@ -114,25 +128,32 @@
 
 **Goal:** Apply business constraints and generate final supplier orders.
 
-* [ ] **4.1. Apply Business Logic**: Refine the demand by:
-* Rounding up to the nearest **Case/Pack Size**.
+* [x] **4.1. Apply Business Logic**: Refine the demand by: ✅
+    * Rounding up to the nearest **Case/Pack Size** ✅
+    * Ensuring **Minimum Order Quantities (MOQ)** are met ✅
+    * Successfully grouped 24 SKUs into 5 supplier orders ✅
 
 
-* Ensuring **Minimum Order Quantities (MOQ)** are met.
+* [x] **4.2. Supplier Order Export**: Create `scripts/export_orders.py` to: ✅
+    * Group orders by supplier ✅
+    * Save results as **JSON** files in `/output/supplier_orders/` ✅
+    * Generated 5 supplier order files (JSON format) ✅
+    * Order priorities assigned: 4 HIGH, 1 MEDIUM ✅
 
 
+* [x] **4.3. Exception Reporting**: `scripts/generate_exceptions.py` ✅
+    * Detects HIGH_DEMAND (>2000 units threshold) ✅
+    * Detects LOW_STOCK (stock < 30% of demand) ✅
+    * Detects MISSING_SUPPLIER mappings ✅
+    * Detects HIGH_VALUE_ORDER and DEMAND_STOCK_GAP ✅
+    * **Result:** 30 exceptions (28 HIGH, 2 MEDIUM, 0 CRITICAL) ✅
+    * Outputs: JSON report + human-readable text summary ✅
 
 
-* [ ] **4.2. Supplier Order Export**: Create `scripts/export_orders.py` to:
-* Group orders by supplier.
-
-
-* Save results as **JSON** files in `/output/supplier_orders/`.
-
-
-
-
-* [ ] 4.3. Exception Reporting: Generate a report for anomalies like missing supplier mappings or demand spikes.
+* [x] **4.4. Phase 4 Integration**: `scripts/run_phase4.py` ✅
+    * Orchestrates demand → export → exceptions ✅
+    * Supports --skip-demand and --date arguments ✅
+    * Complete execution in 0.04 seconds ✅
 
 
 
@@ -142,16 +163,30 @@
 
 **Goal:** Automate the pipeline and ensure auditability.
 
-* [ ] 5.1. Master Orchestrator: Build a `main.py` (Python) or Bash script to run all stages in sequence.
+* [x] **5.1. Master Orchestrator**: `scripts/run_pipeline.py` ✅
+    * Complete end-to-end pipeline execution ✅
+    * Infrastructure validation before execution ✅
+    * 4-stage execution: validate → demand → export → exceptions ✅
+    * Detailed logging and error handling ✅
+    * Execution summary saved to `data/output/pipeline_run_{date}.txt` ✅
+    * **Execution time:** 1.01 seconds for full pipeline ✅
 
 
-* [ ] 5.2. Time-Window Simulation: Ensure the process runs within the 22:00–00:00 batch window.
+* [x] **5.2. Time-Window Simulation**: Airflow DAG configured for 22:00 batch window ✅
+    * Airflow container added to docker-compose.yml ✅
+    * DAG: `airflow/dags/procurement_dag.py` ✅
+    * Schedule: `0 22 * * *` (22:00 daily) ✅
+    * Airflow Web UI: `http://localhost:8081` ✅
+    * Task dependencies with parallel execution ✅
 
 
-* [ ] 5.3. Reproducibility Check: Verify the pipeline can re-process any past date by replaying historical raw data.
+* [x] **5.3. Reproducibility Check**: Historical replay capability ✅
+    * CLI argument `--replay N` for last N days ✅
+    * CLI argument `--date YYYY-MM-DD` for specific date ✅
+    * Tested with 7 days of historical data ✅
 
 
-* [ ] 5.4. Final Presentation: Summarize architecture, data modeling, and team critique for the deliverable.
+* [ ] **5.4. Final Presentation**: Summarize architecture, data modeling, and team critique for the deliverable.
 
 
 

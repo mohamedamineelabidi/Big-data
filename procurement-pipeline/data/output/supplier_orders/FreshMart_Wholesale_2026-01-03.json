@@ -1,0 +1,82 @@
+{
+  "order_id": "ORD-20260103-004-001",
+  "supplier_id": "SUP-004",
+  "supplier_name": "FreshMart Wholesale",
+  "order_date": "2026-01-03",
+  "requested_delivery_date": "2026-01-05",
+  "status": "PENDING",
+  "priority": "HIGH",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0002",
+      "product_name": "Whole Wheat Bread",
+      "category": "Bakery",
+      "quantity_ordered": 1320,
+      "cases": 110,
+      "case_size": 12,
+      "net_demand": 1318.0,
+      "available_stock": 1149.0,
+      "total_demand": 2417.0
+    },
+    {
+      "line_number": 2,
+      "sku": "SKU-0021",
+      "product_name": "Croissant Pack",
+      "category": "Bakery",
+      "quantity_ordered": 2040,
+      "cases": 340,
+      "case_size": 6,
+      "net_demand": 2037.0,
+      "available_stock": 588.0,
+      "total_demand": 2595.0
+    },
+    {
+      "line_number": 3,
+      "sku": "SKU-0022",
+      "product_name": "Bagels 6pk",
+      "category": "Bakery",
+      "quantity_ordered": 1424,
+      "cases": 178,
+      "case_size": 8,
+      "net_demand": 1424.0,
+      "available_stock": 1468.0,
+      "total_demand": 2852.0
+    },
+    {
+      "line_number": 4,
+      "sku": "SKU-0023",
+      "product_name": "Muffins Assorted",
+      "category": "Bakery",
+      "quantity_ordered": 420,
+      "cases": 35,
+      "case_size": 12,
+      "net_demand": 412.0,
+      "available_stock": 1725.0,
+      "total_demand": 2102.0
+    },
+    {
+      "line_number": 5,
+      "sku": "SKU-0024",
+      "product_name": "Baguette",
+      "category": "Bakery",
+      "quantity_ordered": 1540,
+      "cases": 154,
+      "case_size": 10,
+      "net_demand": 1533.0,
+      "available_stock": 842.0,
+      "total_demand": 2325.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 5,
+    "total_units": 6744,
+    "total_cases": 817
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-04T04:01:44.773582",
+    "pipeline_version": "1.0",
+    "source_file": "replenishment_2026-01-03.csv"
+  }
+}
