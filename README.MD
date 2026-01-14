@@ -43,12 +43,12 @@ This project implements a **production-grade, batch-oriented data pipeline** for
 Transform raw transactional data into intelligent procurement decisions using distributed computing:
 
 ```
-          
-   15 Retail             Data Pipeline         5 Supplier    
-    Stores            Processing          Orders       
-  (JSON Orders)          (Batch ETL)           (JSON Files)  
-          
-      Daily                 22:00-00:00              Automated
++-------------------+     +-------------------+     +-------------------+
+|    15 Retail      |     |   Data Pipeline   |     |    5 Supplier     |
+|     Stores        | --> |    Processing     | --> |      Orders       |
+|  (JSON Orders)    |     |    (Batch ETL)    |     |   (JSON Files)    |
++-------------------+     +-------------------+     +-------------------+
+       Daily               22:00-00:00                  Automated
 ```
 
 ### Key Constraints
@@ -76,70 +76,60 @@ Transform raw transactional data into intelligent procurement decisions using di
 The system runs on **8 Docker containers** forming a complete big data ecosystem:
 
 ```
-
-                      PROCUREMENT PIPELINE ARCHITECTURE                          
-
-                                                                                  
-   DATA SOURCES                                                                   
-                                                                      
-                                 
-      15 POS           5 Warehouses       PostgreSQL                        
-      Stores             Stock            Master Data                       
-     (105 JSON)         (35 CSV)          (Products,                        
-                                         Suppliers)                        
-                                 
-                                                                               
-                                                                               
-                                         
-        HDFS DATA LAKE (3.93 TB)                                              
-       3-Way Replication (4 Nodes)                                          
-                                               
-      /raw/orders   /raw/stock                                           
-       105 files     35 files                                            
-                                               
-                                         
-                                                                                
-                                                                                
-              
-                         TRINO QUERY ENGINE                                     
-               Federated SQL across HDFS + PostgreSQL                           
-                                                                                
-                                        
-       Hive Catalog                  PostgreSQL                           
-       (HDFS Data)                   Catalog                              
-                                        
-              
-                                                                                 
-                                                                                 
-              
-                       PYTHON PROCESSING                                        
-                                                                                
-                      
-      Aggregate    Calculate    Apply        Generate                 
-      Demand       Net Demand   Business     Reports                  
-                                Rules                                 
-                      
-              
-                                                                                 
-                                                                                 
-              
-                         OUTPUT LAYER                                           
-                                                                                
-                                  
-      Supplier       Exception      Pipeline                             
-      Orders         Reports        Summary                              
-      (5 JSON)       (JSON+TXT)     (TXT)                                
-                                  
-              
-                                                                                  
-   ORCHESTRATION                                                                  
-                                                                     
-              
-                       APACHE AIRFLOW                                           
-           Schedule: Daily at 22:00 | 9-Task DAG Pipeline                     
-              
-                                                                                  
-
++============================================================================+
+|                    PROCUREMENT PIPELINE ARCHITECTURE                       |
++============================================================================+
+|                                                                            |
+|  DATA SOURCES                                                              |
+|  +----------------+    +----------------+    +----------------+            |
+|  |    15 POS     |    |  5 Warehouses  |    |  PostgreSQL   |            |
+|  |    Stores     |    |     Stock      |    |  Master Data  |            |
+|  |  (105 JSON)   |    |   (35 CSV)     |    |  (Products,   |            |
+|  |               |    |                |    |  Suppliers)   |            |
+|  +-------+-------+    +-------+--------+    +-------+-------+            |
+|          |                    |                     |                     |
+|          v                    v                     |                     |
+|  +--------------------------------------------------+----+                |
+|  |           HDFS DATA LAKE (3.93 TB)                    |                |
+|  |         3-Way Replication (4 Nodes)                   |                |
+|  |  +--------------+  +--------------+                   |                |
+|  |  | /raw/orders  |  | /raw/stock   |                   |                |
+|  |  |  105 files   |  |  35 files    |                   |                |
+|  |  +--------------+  +--------------+                   |                |
+|  +----------------------------+--------------------------+                |
+|                               |                          |                |
+|                               v                          v                |
+|  +------------------------------------------------------------+           |
+|  |                    TRINO QUERY ENGINE                      |           |
+|  |          Federated SQL across HDFS + PostgreSQL            |           |
+|  |  +-----------------+           +-----------------+         |           |
+|  |  |  Hive Catalog   |           | PostgreSQL      |         |           |
+|  |  |  (HDFS Data)    |           | Catalog         |         |           |
+|  |  +-----------------+           +-----------------+         |           |
+|  +-----------------------------+------------------------------+           |
+|                                |                                          |
+|                                v                                          |
+|  +------------------------------------------------------------+           |
+|  |                   PYTHON PROCESSING                        |           |
+|  |  +----------+  +----------+  +----------+  +----------+    |           |
+|  |  | Aggregate|  | Calculate|  |  Apply   |  | Generate |    |           |
+|  |  |  Demand  |  |Net Demand|  | Business |  | Reports  |    |           |
+|  |  |          |  |          |  |  Rules   |  |          |    |           |
+|  |  +----------+  +----------+  +----------+  +----------+    |           |
+|  +-----------------------------+------------------------------+           |
+|                                |                                          |
+|                                v                                          |
+|  +------------------------------------------------------------+           |
+|  |                      OUTPUT LAYER                          |           |
+|  |  +-------------+  +-------------+  +-------------+         |           |
+|  |  |  Supplier   |  |  Exception  |  |  Pipeline   |         |           |
+|  |  |   Orders    |  |   Reports   |  |   Summary   |         |           |
+|  |  |  (5 JSON)   |  | (JSON+TXT)  |  |   (TXT)     |         |           |
+|  |  +-------------+  +-------------+  +-------------+         |           |
+|  +------------------------------------------------------------+           |
+|                                                                            |
+|  ORCHESTRATION: Apache Airflow - Daily at 22:00 | 9-Task DAG Pipeline     |
++============================================================================+
 ```
 
 ### Container Topology
@@ -225,23 +215,22 @@ hdfs>=2.6.0                # Python HDFS client
 - Federated Queries: Single SQL interface for HDFS + PostgreSQL
 - No ETL Required: Query data in place without movement
 - High Performance: Optimized for analytical workloads
--  **Standard SQL**: ANSI SQL compliance for easy adoption
+- **Standard SQL**: ANSI SQL compliance for easy adoption
 
-####  PostgreSQL
--  **ACID Compliance**: Guaranteed data consistency for master data
--  **Rich Features**: Advanced data types, constraints, triggers
--  **Reliability**: 20+ years of production stability
--  **OLTP Optimized**: Perfect for transactional master data
+#### PostgreSQL
+- **ACID Compliance**: Guaranteed data consistency for master data
+- **Rich Features**: Advanced data types, constraints, triggers
+- **Reliability**: 20+ years of production stability
+- **OLTP Optimized**: Perfect for transactional master data
 
-####  Apache Airflow
--  **Visual DAGs**: Easy-to-understand workflow representation
--  **Robust Scheduling**: Cron-based scheduling with retry logic
--  **Monitoring**: Built-in logging and alerting
--  **Python Native**: Write workflows in Python for maximum flexibility
+#### Apache Airflow
+- **Visual DAGs**: Easy-to-understand workflow representation
+- **Robust Scheduling**: Cron-based scheduling with retry logic
+- **Monitoring**: Built-in logging and alerting
+- **Python Native**: Write workflows in Python for maximum flexibility
 
 ---
 
-##  Key Features
 ## Key Features
 
 - **Fully Automated**: Nightly batch processing with zero manual intervention
@@ -353,8 +342,8 @@ docker exec procurement_namenode hdfs dfsadmin -report
 | Metric | Count | Details |
 |--------|-------|---------|
 | **Total Files** | 141 | 105 JSON + 35 CSV + 1 test file |
-| **Order Files** | 105 | 15 stores  7 days of history |
-| **Stock Files** | 35 | 5 warehouses  7 days of history |
+| **Order Files** | 105 | 15 stores x 7 days of history |
+| **Stock Files** | 35 | 5 warehouses x 7 days of history |
 | **Products** | 49 | Across 5 categories (Dairy, Bakery, Beverages, Snacks, Frozen) |
 | **Suppliers** | 10 | With unique lead times and MOQs |
 | **POS Stores** | 15 | Retail locations generating daily orders |
@@ -379,24 +368,24 @@ docker exec procurement_namenode hdfs dfsadmin -report
 
 ```
 Cluster Configuration:
- Replication Factor: 3
- Total Datanodes: 4 (1 legacy + 3 new)
- Active Nodes: 4
- Total Capacity: 3.93 TB
- Configured Capacity: 3,869.74 GB
- Status: HEALTHY
+* Replication Factor: 3
+* Total Datanodes: 4 (1 legacy + 3 new)
+* Active Nodes: 4
+* Total Capacity: 3.93 TB
+* Configured Capacity: 3,869.74 GB
+* Status: HEALTHY
 
 Datanode Distribution:
- datanode  (legacy): 1006.85 GB | 140 blocks
- datanode1 (new):    1006.85 GB | Active
- datanode2 (new):    1006.85 GB | Active
- datanode3 (new):    1006.85 GB | Active
+* datanode  (legacy): 1006.85 GB | 140 blocks
+* datanode1 (new):    1006.85 GB | Active
+* datanode2 (new):    1006.85 GB | Active
+* datanode3 (new):    1006.85 GB | Active
 
 Replication Health:
- Average Replication: 3.0
- Under-replicated: 0
- Missing Blocks: 0
- Corrupt Blocks: 0
+* Average Replication: 3.0
+* Under-replicated: 0
+* Missing Blocks: 0
+* Corrupt Blocks: 0
 ```
 
 ---
@@ -412,30 +401,48 @@ Replication Health:
 The procurement pipeline consists of **9 orchestrated tasks** executed daily at 22:00:
 
 ```
-                          start
-                            
-                            
-                    get_processing_date
-                            
-                            
-                  validate_data_sources
-                            
-                            
-                    data_quality_check
-                            
-                            
-                     compute_demand
-                            
-                 
-                                      
-           export_orders      generate_exceptions
-                                      
-                 
-                            
-                    generate_summary
-                            
-                            
-                           end
+                            +-------+
+                            | start |
+                            +---+---+
+                                |
+                                v
+                    +-----------+-----------+
+                    | get_processing_date   |
+                    +-----------+-----------+
+                                |
+                                v
+                    +-----------+-----------+
+                    | validate_data_sources |
+                    +-----------+-----------+
+                                |
+                                v
+                    +-----------+-----------+
+                    |  data_quality_check   |
+                    +-----------+-----------+
+                                |
+                                v
+                    +-----------+-----------+
+                    |    compute_demand     |
+                    +-----------+-----------+
+                                |
+                    +-----------+-----------+
+                    |                       |
+                    v                       v
+           +--------+-------+    +----------+---------+
+           |  export_orders |    | generate_exceptions|
+           +--------+-------+    +----------+---------+
+                    |                       |
+                    +-----------+-----------+
+                                |
+                                v
+                    +-----------+-----------+
+                    |   generate_summary    |
+                    +-----------+-----------+
+                                |
+                                v
+                            +---+---+
+                            |  end  |
+                            +-------+
 ```
 
 ### Task Breakdown
@@ -466,56 +473,56 @@ The procurement pipeline consists of **9 orchestrated tasks** executed daily at 
 The core replenishment calculation:
 
 ```
-
-                                                                  
-   Net Demand = Total Orders - Available Stock + Safety Stock    
-                                                                  
-
++================================================================+
+|                                                                |
+|   Net Demand = Total Orders - Available Stock + Safety Stock   |
+|                                                                |
++================================================================+
 ```
 
 **Real-World Example - Step by Step:**
 
 ```
 Product: Whole Milk 1L (SKU-0002)
+==============================================================
 
-
- Step 1: Aggregate Orders (Last 7 Days)
+[Step 1] Aggregate Orders (Last 7 Days)
    Day 1 (Dec 28): 65 units
    Day 2 (Dec 29): 72 units
    Day 3 (Dec 30): 68 units
-   Day 4 (Dec 31): 80 units   Holiday spike
-   Day 5 (Jan 01): 85 units   Holiday spike
+   Day 4 (Dec 31): 80 units  <- Holiday spike
+   Day 5 (Jan 01): 85 units  <- Holiday spike
    Day 6 (Jan 02): 70 units
    Day 7 (Jan 03): 80 units
-   
+   ------------------------
    TOTAL DEMAND: 520 units
 
- Step 2: Check Current Stock
+[Step 2] Check Current Stock
    Warehouse 1: 50 units
    Warehouse 2: 60 units
    Warehouse 3: 40 units
-   
+   ------------------------
    TOTAL STOCK: 150 units
 
- Step 3: Load Business Rules (PostgreSQL)
-    Supplier: DairyFresh LLC
-    Lead Time: 3 days
-    Safety Stock: 100 units (always keep as buffer)
-    MOQ (Minimum Order): 50 units
-    Case Size: 24 units/case
+[Step 3] Load Business Rules (PostgreSQL)
+   * Supplier: DairyFresh LLC
+   * Lead Time: 3 days
+   * Safety Stock: 100 units (always keep as buffer)
+   * MOQ (Minimum Order): 50 units
+   * Case Size: 24 units/case
 
- Step 4: Calculate Net Demand
+[Step 4] Calculate Net Demand
    Basic Need = 520 - 150 = 370 units
    Add Safety Buffer = 370 + 100 = 470 units
-   
- Step 5: Round to Case Size
-   Cases Needed = 470  24 = 20 cases
-   Final Order = 20  24 = 480 units 
 
- RESULT: Order 480 units (20 cases) from DairyFresh LLC
+[Step 5] Round to Case Size
+   Cases Needed = ceil(470 / 24) = 20 cases
+   Final Order = 20 x 24 = 480 units
+
+[RESULT] Order 480 units (20 cases) from DairyFresh LLC
    Priority: HIGH (stock < 30% of demand)
    Expected Delivery: Jan 06 (3 days)
-   Cost: 480  $4.50 = $2,160.00
+   Cost: 480 x $4.50 = $2,160.00
 ```
 
 ### 2. Procurement Rules
@@ -523,7 +530,7 @@ Product: Whole Milk 1L (SKU-0002)
 | Rule | Description | Example |
 |------|-------------|---------|
 | **MOQ** | Minimum Order Quantity per supplier | Min 50 units |
-| **Case Size** | Orders rounded UP to nearest case | 24 units/case  47024 = 20 cases |
+| **Case Size** | Orders rounded UP to nearest case | 24 units/case = ceil(470/24) = 20 cases |
 | **Priority** | Based on stock coverage | Stock < 30% of demand = HIGH |
 | **Lead Time** | Days until delivery | 3 days for dairy products |
 
@@ -545,13 +552,13 @@ else:
 The system automatically detects anomalies and alerts procurement managers:
 
 | Exception Type | Threshold | Severity | Action Required |
-|----------------|-----------|----------|-----------------|
-| **HIGH_DEMAND** | > 2,000 units |  HIGH | Verify with sales team, check for promotions |
-| **LOW_STOCK** | Stock < 30% of demand |  HIGH | Expedite order, consider air freight |
-| **CRITICAL_STOCK** | Stock < 10% of demand |  CRITICAL | Emergency order, notify management |
-| **MISSING_SUPPLIER** | No supplier assigned |  HIGH | Contact procurement to assign supplier |
-| **HIGH_VALUE_ORDER** | Order value > $10,000 |  MEDIUM | Manager approval required |
-| **DEMAND_STOCK_GAP** | Demand > 5x stock |  MEDIUM | Review forecasting model |
+|----------------|-----------|----------|------------------|
+| **HIGH_DEMAND** | > 2,000 units | HIGH | Verify with sales team, check for promotions |
+| **LOW_STOCK** | Stock < 30% of demand | HIGH | Expedite order, consider air freight |
+| **CRITICAL_STOCK** | Stock < 10% of demand | CRITICAL | Emergency order, notify management |
+| **MISSING_SUPPLIER** | No supplier assigned | HIGH | Contact procurement to assign supplier |
+| **HIGH_VALUE_ORDER** | Order value > $10,000 | MEDIUM | Manager approval required |
+| **DEMAND_STOCK_GAP** | Demand > 5x stock | MEDIUM | Review forecasting model |
 
 **Real Exception Example:**
 
@@ -725,75 +732,70 @@ The system automatically detects anomalies and alerts procurement managers:
 
 ---
 
-##  Project Structure
+## Project Structure
 
 ```
 Big-data/
- README.MD                          # Comprehensive project documentation
- TODO.MD                            # Project roadmap & task tracking
-
- procurement-pipeline/
-    
-     docker-compose.yml             # 8-container infrastructure
-     requirements.txt               # Python dependencies
-     setup.ps1                      # Windows automated setup
-     setup.sh                       # Linux/macOS automated setup
-     .gitignore                     # Git ignore rules
-    
-     HDFS_REPLICATION.md            # HDFS 3-way replication docs
-     PROJECT_STATUS.md              # Current project status
-     SUMMARY_REPORT.md              # Pipeline execution summaries
-    
-     airflow/
-        dags/
-           procurement_dag.py     # Main DAG (9 tasks, 22:00 schedule)
-        logs/                      # Airflow execution logs
-            dag_id=procurement_daily_pipeline/
-    
-     config/
-        trino-config/
-            config.properties      # Trino server config
-            jvm.config             # JVM memory settings
-            node.properties        # Node configuration
-            catalog/
-                hive.properties    # HDFS catalog
-                postgresql.properties  # PostgreSQL catalog
-    
-     data/
-        raw/
-           orders/                # 105 JSON files (15 stores  7 days)
-              sample_pos_1_2026-01-03.json
-              ...
-           stock/                 # 35 CSV files (5 warehouses  7 days)
-               sample_warehouse_1_2026-01-03.csv
-               ...
-        output/
-            replenishment_*.csv            # Net demand calculations
-            supplier_orders/*.json         # Supplier order files
-            exception_report_*.json        # Anomaly alerts
-            pipeline_summary_*.txt         # Execution summaries
-    
-     logs/                          # Application logs
-    
-     scripts/
-        data_gen.py                # Generate synthetic test data
-        ingest_hdfs.py             # Upload files to HDFS
-        compute_demand.py          # Calculate net demand (Trino)
-        export_orders.py           # Generate supplier orders
-        generate_exceptions.py     # Detect anomalies
-        validate_data_quality.py   # Data quality checks
-        test_connection.py         # Test Trino/PostgreSQL connectivity
-        test_system.py             # System validation tests
-        run_pipeline.py            # Manual pipeline execution
-        upload_to_hdfs.ps1         # PowerShell HDFS upload
-    
-     sql/
-         postgres/
-            schema.sql             # Database schema
-            init_master_data.sql   # Load products & suppliers
-            02_create_airflow_db.sql  # Airflow metadata DB
-         presto/
-             analysis.sql           # Example Trino queries
+|-- README.MD                          # Comprehensive project documentation
+|-- TODO.MD                            # Project roadmap & task tracking
+|
++-- procurement-pipeline/
+    |
+    |-- docker-compose.yml             # 8-container infrastructure
+    |-- requirements.txt               # Python dependencies
+    |-- setup.ps1                      # Windows automated setup
+    |-- setup.sh                       # Linux/macOS automated setup
+    |-- .gitignore                     # Git ignore rules
+    |
+    |-- HDFS_REPLICATION.md            # HDFS 3-way replication docs
+    |-- PROJECT_STATUS.md              # Current project status
+    |-- SUMMARY_REPORT.md              # Pipeline execution summaries
+    |
+    |-- airflow/
+    |   |-- dags/
+    |   |   +-- procurement_dag.py     # Main DAG (9 tasks, 22:00 schedule)
+    |   +-- logs/                      # Airflow execution logs
+    |
+    |-- config/
+    |   +-- trino-config/
+    |       |-- config.properties      # Trino server config
+    |       |-- jvm.config             # JVM memory settings
+    |       |-- node.properties        # Node configuration
+    |       +-- catalog/
+    |           |-- hive.properties    # HDFS catalog
+    |           +-- postgresql.properties  # PostgreSQL catalog
+    |
+    |-- data/
+    |   |-- raw/
+    |   |   |-- orders/                # 105 JSON files (15 stores x 7 days)
+    |   |   +-- stock/                 # 35 CSV files (5 warehouses x 7 days)
+    |   +-- output/
+    |       |-- replenishment_*.csv            # Net demand calculations
+    |       |-- supplier_orders/*.json         # Supplier order files
+    |       |-- exception_report_*.json        # Anomaly alerts
+    |       +-- pipeline_summary_*.txt         # Execution summaries
+    |
+    |-- logs/                          # Application logs
+    |
+    |-- scripts/
+    |   |-- data_gen.py                # Generate synthetic test data
+    |   |-- ingest_hdfs.py             # Upload files to HDFS
+    |   |-- compute_demand.py          # Calculate net demand (Trino)
+    |   |-- export_orders.py           # Generate supplier orders
+    |   |-- generate_exceptions.py     # Detect anomalies
+    |   |-- validate_data_quality.py   # Data quality checks
+    |   |-- test_connection.py         # Test Trino/PostgreSQL connectivity
+    |   |-- test_system.py             # System validation tests
+    |   |-- run_pipeline.py            # Manual pipeline execution
+    |   +-- upload_to_hdfs.ps1         # PowerShell HDFS upload
+    |
+    +-- sql/
+        |-- postgres/
+        |   |-- schema.sql             # Database schema
+        |   |-- init_master_data.sql   # Load products & suppliers
+        |   +-- 02_create_airflow_db.sql  # Airflow metadata DB
+        +-- presto/
+            +-- analysis.sql           # Example Trino queries
 ```
 
 ---
@@ -1279,65 +1281,35 @@ docker exec procurement_airflow cat /opt/airflow/data/output/exception_report_$(
 ```
 
 ### Emergency Reset
-    
-     docker-compose.yml             # Infrastructure definition
-    
-     airflow/
-        dags/
-           procurement_dag.py     # Airflow DAG (22:00 schedule)
-        logs/                      # Airflow execution logs
-    
-     config/
-        trino/
-           postgresql.properties  # Trino PostgreSQL catalog
-        trino-config/
-            config.properties      # Trino server config
-    
-     data/
-        raw/
-           orders/                # Daily POS order files (JSON)
-              pos_1_2025-12-28.json
-              pos_1_2025-12-29.json
-              ... (105 files: 15 POS  7 days)
-          
-           stock/                 # Daily warehouse snapshots (CSV)
-               warehouse_1_2025-12-28.csv
-               ... (35 files: 5 warehouses  7 days)
-       
-        output/
-            replenishment_2026-01-03.csv
-            pipeline_run_2026-01-03.txt
-           
-            supplier_orders/       # JSON orders per supplier
-               BevCo_Distributors_2026-01-03.json
-               DairyFresh_LLC_2026-01-03.json
-               ElectroSupply_Co_2026-01-03.json
-               FreshMart_Wholesale_2026-01-03.json
-               TechGear_Plus_2026-01-03.json
-           
-            exceptions/            # Quality control reports
-                exception_report_2026-01-03.json
-                exception_summary_2026-01-03.txt
-    
-     scripts/
-        data_gen.py                # Faker-based test data generator
-        generate_orders.py         # Order generation script
-        ingest_hdfs.py             # HDFS data ingestion
-        upload_to_hdfs.ps1         # PowerShell upload script
-        validate_data_quality.py   # Data quality validation
-        compute_demand.py          # Main demand calculation
-        export_orders.py           # Supplier JSON generation
-        generate_exceptions.py     # Anomaly detection & reporting
-        run_phase4.py              # Phase 4 orchestration
-        run_pipeline.py            # Master pipeline orchestrator
-        test_connection.py         # Infrastructure connectivity test
-        test_trino_catalog.py      # Trino catalog validation
-        test_system.py             # Full system integration test
-    
-     sql/
-         postgres/
-             schema.sql             # Database schema
-             init_master_data.sql   # Seed data (products, suppliers)
+
+If you encounter persistent issues, perform a complete reset:
+
+```bash
+# Stop all containers and remove volumes
+docker-compose down -v
+
+# Remove all related images
+docker rmi $(docker images | grep procurement | awk '{print $3}')
+
+# Clean up Docker
+docker system prune -a
+
+# Restart from scratch
+docker-compose up -d
+
+# Wait for services to start (30-60 seconds)
+ping localhost -n 30 > NUL  # Windows
+sleep 30                     # Linux/macOS
+
+# Regenerate data
+python scripts/data_gen.py --days 7 --start-date 2025-12-28
+
+# Upload to HDFS
+python scripts/ingest_hdfs.py
+
+# Run verification
+python scripts/test_connection.py
+python scripts/test_system.py
 ```
 
 ---
@@ -1396,7 +1368,7 @@ python scripts/test_system.py
 
 ---
 
-##  Scripts Documentation
+## Scripts Documentation
 
 ### Core Pipeline Scripts
 
@@ -1748,7 +1720,7 @@ python scripts/ingest_hdfs.py --source data/raw --hdfs-path /procurement
 
 ---
 
-##  Data Models
+## Data Models
 
 ### Input: Order JSON Schema
 
@@ -1848,44 +1820,44 @@ python scripts/ingest_hdfs.py --source data/raw --hdfs-path /procurement
 ### Latest Execution (2026-01-03)
 
 ```
-
-                    PIPELINE EXECUTION SUMMARY                       
-
-   Processing Date:     2026-01-03                                 
-    Execution Time:      1.06 seconds                              
-   Status:               SUCCESS                                 
-
-   INPUT DATA                                                      
-      Order Files:        105 JSON files                            
-      Stock Files:        35 CSV files                              
-      Order Items:        15,150 items                              
-      Stock Records:      250 records                               
-      POS Locations:      15 stores                                 
-      Warehouses:         5 locations                               
-
-   PROCESSING                                                      
-      Total Demand:       121,840 units                             
-      Total Stock:        58,401 units                              
-      Unique SKUs:        50 products                               
-      Products (Master):  49 in database                            
-
-   OUTPUT DATA                                                     
-      SKUs to Reorder:    24 products                               
-      Total Units:        32,748 units                              
-      Suppliers:          5 orders generated                        
-      Exceptions:         30 (0 critical)                           
-
++=========================================================================+
+|                    PIPELINE EXECUTION SUMMARY                           |
++=========================================================================+
+|   Processing Date:     2026-01-03                                       |
+|   Execution Time:      1.06 seconds                                     |
+|   Status:              SUCCESS                                          |
++-------------------------------------------------------------------------+
+|   INPUT DATA                                                            |
+|      Order Files:        105 JSON files                                 |
+|      Stock Files:        35 CSV files                                   |
+|      Order Items:        15,150 items                                   |
+|      Stock Records:      250 records                                    |
+|      POS Locations:      15 stores                                      |
+|      Warehouses:         5 locations                                    |
++-------------------------------------------------------------------------+
+|   PROCESSING                                                            |
+|      Total Demand:       121,840 units                                  |
+|      Total Stock:        58,401 units                                   |
+|      Unique SKUs:        50 products                                    |
+|      Products (Master):  49 in database                                 |
++-------------------------------------------------------------------------+
+|   OUTPUT DATA                                                           |
+|      SKUs to Reorder:    24 products                                    |
+|      Total Units:        32,748 units                                   |
+|      Suppliers:          5 orders generated                             |
+|      Exceptions:         30 (0 critical)                                |
++=========================================================================+
 ```
 
 ### Supplier Orders Generated
 
 | Supplier | SKUs | Units | Cases | Priority |
 |----------|------|-------|-------|----------|
-| BevCo Distributors | 7 | 10,494 | 874 |  HIGH |
-| FreshMart Wholesale | 5 | 6,744 | 562 |  HIGH |
-| DairyFresh LLC | 5 | 6,594 | 549 |  HIGH |
-| ElectroSupply Co | 4 | 5,461 | 455 |  HIGH |
-| TechGear Plus | 3 | 3,455 | 288 |  MEDIUM |
+| BevCo Distributors | 7 | 10,494 | 874 | HIGH |
+| FreshMart Wholesale | 5 | 6,744 | 562 | HIGH |
+| DairyFresh LLC | 5 | 6,594 | 549 | HIGH |
+| ElectroSupply Co | 4 | 5,461 | 455 | HIGH |
+| TechGear Plus | 3 | 3,455 | 288 | MEDIUM |
 | **TOTAL** | **24** | **32,748** | **2,728** | |
 
 ### Top 10 Items to Reorder
@@ -1905,7 +1877,7 @@ python scripts/ingest_hdfs.py --source data/raw --hdfs-path /procurement
 
 ---
 
-##  Project Phases Completed
+## Project Phases Completed
 
 ### Phase 1: Infrastructure Setup 
 
@@ -1918,8 +1890,8 @@ python scripts/ingest_hdfs.py --source data/raw --hdfs-path /procurement
 
 - [x] HDFS directory hierarchy (`/raw/orders/`, `/raw/stock/`)
 - [x] 7 days of test data generated (Dec 28 - Jan 3)
-- [x] 105 order files (15 POS  7 days)
-- [x] 35 stock files (5 warehouses  7 days)
+- [x] 105 order files (15 POS x 7 days)
+- [x] 35 stock files (5 warehouses x 7 days)
 - [x] Data quality validation implemented
 
 ### Phase 3: Analytical Processing 
@@ -1946,7 +1918,7 @@ python scripts/ingest_hdfs.py --source data/raw --hdfs-path /procurement
 
 ---
 
-##  System Tests
+## System Tests
 
 Run the comprehensive test suite:
 
@@ -1972,7 +1944,7 @@ python scripts/test_system.py
 
 ---
 
-##  Docker Services
+## Docker Services
 
 ```yaml
 services:
