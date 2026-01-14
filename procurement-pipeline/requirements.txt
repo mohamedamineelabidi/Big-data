@@ -1,0 +1,13 @@
+# Core dependencies
+pandas>=2.0.0
+trino>=0.327.0
+psycopg2-binary>=2.9.0
+
+# Data generation
+faker>=18.0.0
+
+# HDFS integration
+hdfs>=2.6.0
+
+# Utilities
+python-dateutil>=2.8.0

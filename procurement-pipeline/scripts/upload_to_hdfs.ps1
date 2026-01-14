@@ -1,4 +1,4 @@
-# Batch Upload Script for HDFS Ingestion
+how i do file system in hh# Batch Upload Script for HDFS Ingestion
 
 Write-Host "Starting HDFS Batch Upload..." -ForegroundColor Green
 

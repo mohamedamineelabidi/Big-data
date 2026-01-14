@@ -22,7 +22,7 @@ services:
     environment:
       - CLUSTER_NAME=procurement
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
-      - HDFS_CONF_dfs_replication=1
+      - HDFS_CONF_dfs_replication=3
     ports:
       - "9870:9870"
       - "9000:9000"
@@ -30,17 +30,59 @@ services:
       - hdfs_namenode_data:/hadoop/dfs/name
     networks:
       - procurement_network
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:9870"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
-  # HDFS Datanode
-  datanode:
+  # HDFS Datanode 1
+  datanode1:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
-    container_name: procurement_datanode
-    hostname: datanode
+    container_name: procurement_datanode1
+    hostname: datanode1
     environment:
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
-      - HDFS_CONF_dfs_replication=1
+      - HDFS_CONF_dfs_replication=3
+    ports:
+      - "9864:9864"
     volumes:
-      - hdfs_datanode_data:/hadoop/dfs/data
+      - hdfs_datanode1_data:/hadoop/dfs/data
+    networks:
+      - procurement_network
+    depends_on:
+      - namenode
+
+  # HDFS Datanode 2
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: procurement_datanode2
+    hostname: datanode2
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - HDFS_CONF_dfs_replication=3
+    ports:
+      - "9865:9864"
+    volumes:
+      - hdfs_datanode2_data:/hadoop/dfs/data
+    networks:
+      - procurement_network
+    depends_on:
+      - namenode
+
+  # HDFS Datanode 3
+  datanode3:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: procurement_datanode3
+    hostname: datanode3
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - HDFS_CONF_dfs_replication=3
+    ports:
+      - "9866:9864"
+    volumes:
+      - hdfs_datanode3_data:/hadoop/dfs/data
     networks:
       - procurement_network
     depends_on:
@@ -53,14 +95,22 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./config/trino:/etc/trino/catalog
-      - ./config/trino-config:/etc/trino
+      - ./config/trino-config/catalog:/etc/trino/catalog
+      - ./config/trino-config/config.properties:/etc/trino/config.properties
+      - ./config/trino-config/jvm.config:/etc/trino/jvm.config
+      - ./config/trino-config/node.properties:/etc/trino/node.properties
       - ./data/raw:/data/raw:ro
     networks:
       - procurement_network
     depends_on:
       - postgres
       - namenode
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/v1/info"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   # pgAdmin - PostgreSQL Web Interface
   pgadmin:
@@ -83,7 +133,7 @@ services:
     environment:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://admin:password@postgres:5432/airflow_db
-      - AIRFLOW__CORE__FERNET_KEY=your-fernet-key-here-replace-in-production
+      - AIRFLOW__CORE__FERNET_KEY=h5tiQa3Zglp7i8PooALe7ylgjcPr87vyfQbOrS_EHOI=
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
       - AIRFLOW__WEBSERVER__SECRET_KEY=procurement-secret-key-2026
       - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
@@ -123,4 +173,6 @@ networks:
 
 volumes:
   hdfs_namenode_data:
-  hdfs_datanode_data:
+  hdfs_datanode1_data:
+  hdfs_datanode2_data:
+  hdfs_datanode3_data:

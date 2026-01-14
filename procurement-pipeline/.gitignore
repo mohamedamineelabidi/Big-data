@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Project specific - Generated data
+data/raw/orders/
+data/raw/stock/
+data/output/
+
+# Keep sample files
+!data/raw/orders/sample_*.json
+!data/raw/stock/sample_*.csv
+
+# Airflow
+logs/
+airflow/logs/
+*.pid
+
+# Docker
+*.env.local
+
+# Jupyter
+.ipynb_checkpoints/
