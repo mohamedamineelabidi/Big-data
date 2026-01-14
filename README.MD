@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🏭 Big Data Procurement Pipeline
+# Big Data Procurement Pipeline
 
 ### Intelligent Retail Replenishment System
 
@@ -11,35 +11,30 @@
 ![HDFS](https://img.shields.io/badge/hadoop-3.2.1-yellow)
 ![Trino](https://img.shields.io/badge/trino-435+-purple)
 
-**Module:** Fondements Big Data  
-**Institution:** École Nationale des Sciences Appliquées (ENSA) Al Hoceima  
-**Academic Year:** 2025-2026  
-**Branch:** `feature-lastphase`
-
 ---
 
 </div>
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [Overview](#-project-overview)
-- [Architecture](#-system-architecture)
-- [Technology Stack](#-technology-stack)
-- [Features](#-key-features)
-- [Quick Start](#-quick-start)
-- [Pipeline Workflow](#-pipeline-workflow)
-- [Business Logic](#-business-logic)
-- [Data Flow](#-data-flow)
-- [Project Statistics](#-project-statistics)
-- [Usage](#-usage)
-- [Monitoring](#-monitoring)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
-- [Contact](#-contact)
+- [Project Overview](#project-overview)
+- [System Architecture](#system-architecture)
+- [Technology Stack](#technology-stack)
+- [Key Features](#key-features)
+- [Quick Start](#quick-start)
+- [Pipeline Workflow](#pipeline-workflow)
+- [Business Logic](#business-logic)
+- [Data Flow](#data-flow)
+- [Project Statistics](#project-statistics)
+- [Usage](#usage)
+- [Monitoring](#monitoring)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [Contact](#contact)
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 This project implements a **production-grade, batch-oriented data pipeline** for automated retail procurement. The system processes daily customer orders from 15 Points of Sale (POS) and warehouse stock levels from 5 warehouses, calculating net demand and automatically generating optimized supplier replenishment orders.
 
@@ -60,19 +55,25 @@ Transform raw transactional data into intelligent procurement decisions using di
 
 | Constraint | Description |
 |------------|-------------|
-| 🚫 **Batch Only** | No streaming technologies (Kafka/Flink/Spark Streaming) |
-| 🌐 **Distributed** | HDFS 3-way replication across 4 datanodes |
-| 🔄 **Separation** | Clear OLTP (PostgreSQL) and Analytical (HDFS) layers |
-| ⏰ **Time Window** | Daily batch processing: 22:00 - 00:00 |
-| 📊 **Scalable** | Handles 141+ files, 49 products, 10 suppliers |
+| **Batch Only** | No streaming technologies (Kafka/Flink/Spark Streaming) |
+| **Distributed** | HDFS 3-way replication across 4 datanodes |
+| **Separation** | Clear OLTP (PostgreSQL) and Analytical (HDFS) layers |
+| **Time Window** | Daily batch processing: 22:00 - 00:00 |
+| **Scalable** | Handles 141+ files, 49 products, 10 suppliers |
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
+
+### Architecture Diagram
+
+![System Architecture](procurement-pipeline/images/architectureproject.png)
+
+*Figure 1: Complete data flow from sources through processing to outputs*
 
 ### Infrastructure Overview
 
-The system runs on **6 Docker containers** forming a complete big data ecosystem:
+The system runs on **8 Docker containers** forming a complete big data ecosystem:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
@@ -143,32 +144,58 @@ The system runs on **6 Docker containers** forming a complete big data ecosystem
 
 ### Container Topology
 
+![Docker Containers](procurement-pipeline/images/docker_containers.png)
+
+*Figure 2: Running Docker containers with health status*
+
 | Container | Image | Purpose | Ports | Status |
 |-----------|-------|---------|-------|--------|
-| **procurement_postgres** | postgres:13 | OLTP master data | 5432 | ✅ Active |
-| **procurement_namenode** | hadoop-namenode:3.2.1 | HDFS coordinator | 9870, 9000 | ✅ Active |
-| **procurement_datanode1** | hadoop-datanode:3.2.1 | HDFS storage node 1 | 9864 | ✅ Active |
-| **procurement_datanode2** | hadoop-datanode:3.2.1 | HDFS storage node 2 | 9865 | ✅ Active |
-| **procurement_datanode3** | hadoop-datanode:3.2.1 | HDFS storage node 3 | 9866 | ✅ Active |
-| **procurement_trino** | trinodb/trino:435+ | Federated query engine | 8080 | ✅ Active |
-| **procurement_airflow** | apache/airflow:2.7.3 | Workflow orchestration | 8081 | ✅ Active |
-| **procurement_pgadmin** | pgadmin4:latest | Database UI | 5050 | ✅ Active |
+| **procurement_postgres** | postgres:13 | OLTP master data | 5432 | Active |
+| **procurement_namenode** | hadoop-namenode:3.2.1 | HDFS coordinator | 9870, 9000 | Active |
+| **procurement_datanode** | hadoop-datanode:3.2.1 | HDFS legacy storage node | 9864 | Active |
+| **procurement_datanode1** | hadoop-datanode:3.2.1 | HDFS storage node 1 | 9864 | Active |
+| **procurement_datanode2** | hadoop-datanode:3.2.1 | HDFS storage node 2 | 9865 | Active |
+| **procurement_datanode3** | hadoop-datanode:3.2.1 | HDFS storage node 3 | 9866 | Active |
+| **procurement_trino** | trinodb/trino:479 | Federated query engine | 8080 | Active |
+| **procurement_airflow** | apache/airflow:2.7.3 | Workflow orchestration | 8081 | Active |
+| **procurement_pgadmin** | pgadmin4:latest | Database UI | 5050 | Active |
+
+### HDFS Data Lake
+
+![HDFS Filesystem](procurement-pipeline/images/hdfs_datanodes.png)
+
+*Figure 3: HDFS directory structure with replicated data*
+
+**Configuration:**
+- **Replication Factor**: 3 (high availability)
+- **Total Capacity**: 3.93 TB across 4 datanodes
+- **Data Structure**:
+  - `/raw/orders/` - Daily POS transaction files (JSON)
+  - `/raw/stock/` - Daily warehouse inventory (CSV)
+  - `/processed/` - Transformed data
+  - `/output/` - Generated reports
+
+### Database Schema
+
+![Database Schema](procurement-pipeline/images/pgadmin.png)
+
+*Figure 4: PostgreSQL master data tables*
 
 ---
 
-## 💻 Technology Stack
+## Technology Stack
 
 ### Core Technologies
 
 | Component | Technology | Version | Purpose |
 |-----------|------------|---------|---------|
-| 🐳 **Container Platform** | Docker Compose | 3.x | Infrastructure orchestration |
-| 📁 **Data Lake** | Apache HDFS | 3.2.1 | Distributed file storage with 3-way replication |
-| 🗄️ **OLTP Database** | PostgreSQL | 13 | Master data storage (products, suppliers) |
-| ⚡ **Query Engine** | Trino | 435+ | Federated SQL across HDFS + PostgreSQL |
-| 🔄 **Orchestration** | Apache Airflow | 2.7.3 | Workflow automation & scheduling |
-| 🐍 **Programming** | Python | 3.10+ | Data processing & business logic |
-| 🌐 **Web UI** | pgAdmin | Latest | Database management interface |
+| **Container Platform** | Docker Compose | 3.x | Infrastructure orchestration |
+| **Data Lake** | Apache HDFS | 3.2.1 | Distributed file storage with 3-way replication |
+| **OLTP Database** | PostgreSQL | 13 | Master data storage (products, suppliers) |
+| **Query Engine** | Trino | 479 | Federated SQL across HDFS + PostgreSQL |
+| **Orchestration** | Apache Airflow | 2.7.3 | Workflow automation & scheduling |
+| **Programming** | Python | 3.10+ | Data processing & business logic |
+| **Web UI** | pgAdmin | Latest | Database management interface |
 
 ### Python Dependencies
 
@@ -188,16 +215,16 @@ hdfs>=2.6.0                # Python HDFS client
 
 ### Why These Technologies?
 
-#### 📁 HDFS (Hadoop Distributed File System)
-- ✅ **Fault Tolerance**: 3-way replication across 4 datanodes (3.93 TB total)
-- ✅ **Scalability**: Handles 141+ files seamlessly, can scale to petabytes
-- ✅ **Industry Standard**: Battle-tested for big data storage
-- ✅ **Academic Requirement**: Fulfills distributed storage constraint
+**HDFS (Hadoop Distributed File System)**
+- Fault Tolerance: 3-way replication across 4 datanodes (3.93 TB total)
+- Scalability: Handles 141+ files seamlessly, can scale to petabytes
+- Industry Standard: Battle-tested for big data storage
+- Academic Requirement: Fulfills distributed storage constraint
 
-#### ⚡ Trino (formerly PrestoSQL)
-- ✅ **Federated Queries**: Single SQL interface for HDFS + PostgreSQL
-- ✅ **No ETL Required**: Query data in place without movement
-- ✅ **High Performance**: Optimized for analytical workloads
+**Trino (formerly PrestoSQL)**
+- Federated Queries: Single SQL interface for HDFS + PostgreSQL
+- No ETL Required: Query data in place without movement
+- High Performance: Optimized for analytical workloads
 - ✅ **Standard SQL**: ANSI SQL compliance for easy adoption
 
 #### 🗄️ PostgreSQL
@@ -215,21 +242,22 @@ hdfs>=2.6.0                # Python HDFS client
 ---
 
 ## ⚡ Key Features
+## Key Features
 
-- ✅ **Fully Automated**: Nightly batch processing with zero manual intervention
-- ✅ **High Availability**: 3-way HDFS replication across 4 datanodes (3.93 TB)
-- ✅ **Fault Tolerant**: Automatic retry logic and error recovery
-- ✅ **Scalable**: Handles 141+ files, 49 products, 10 suppliers effortlessly
-- ✅ **Intelligent**: Business rules for MOQ, case sizes, lead times, priorities
-- ✅ **Monitored**: Real-time Airflow UI with task status and logs
-- ✅ **Federated Queries**: Trino queries across HDFS + PostgreSQL without ETL
-- ✅ **Exception Detection**: Automatic anomaly alerts for procurement team
-- ✅ **Production Ready**: Docker-based with health checks and logging
-- ✅ **Easy Setup**: One-command deployment with `setup.ps1` or `setup.sh`
+- **Fully Automated**: Nightly batch processing with zero manual intervention
+- **High Availability**: 3-way HDFS replication across 4 datanodes (3.93 TB)
+- **Fault Tolerant**: Automatic retry logic and error recovery
+- **Scalable**: Handles 141+ files, 49 products, 10 suppliers effortlessly
+- **Intelligent**: Business rules for MOQ, case sizes, lead times, priorities
+- **Monitored**: Real-time Airflow UI with task status and logs
+- **Federated Queries**: Trino queries across HDFS + PostgreSQL without ETL
+- **Exception Detection**: Automatic anomaly alerts for procurement team
+- **Production Ready**: Docker-based with health checks and logging
+- **Easy Setup**: One-command deployment with `setup.ps1` or `setup.sh`
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -296,14 +324,15 @@ chmod +x setup.sh
 docker ps
 
 # Expected output: 8 containers running
-# ✓ procurement_postgres
-# ✓ procurement_namenode
-# ✓ procurement_datanode1
-# ✓ procurement_datanode2
-# ✓ procurement_datanode3
-# ✓ procurement_trino
-# ✓ procurement_airflow
-# ✓ procurement_pgadmin
+# procurement_postgres
+# procurement_namenode
+# procurement_datanode
+# procurement_datanode1
+# procurement_datanode2
+# procurement_datanode3
+# procurement_trino
+# procurement_airflow
+# procurement_pgadmin
 
 # Check HDFS health
 docker exec procurement_namenode hdfs dfsadmin -report
@@ -317,22 +346,22 @@ docker exec procurement_namenode hdfs dfsadmin -report
 
 ---
 
-## 📊 Project Statistics
+## Project Statistics
 
 ### Data Volume
 
 | Metric | Count | Details |
 |--------|-------|---------|
-| 📁 **Total Files** | 141 | 105 JSON + 35 CSV + 1 test file |
-| 📦 **Order Files** | 105 | 15 stores × 7 days of history |
-| 📊 **Stock Files** | 35 | 5 warehouses × 7 days of history |
-| 🏪 **Products** | 49 | Across 5 categories (Dairy, Bakery, Beverages, Snacks, Frozen) |
-| 🚚 **Suppliers** | 10 | With unique lead times and MOQs |
-| 🏬 **POS Stores** | 15 | Retail locations generating daily orders |
-| 🏭 **Warehouses** | 5 | Distribution centers tracking stock |
-| 💾 **HDFS Capacity** | 3.93 TB | Across 4 datanodes with 3-way replication |
-| ⚙️ **Pipeline Tasks** | 9 | Airflow DAG tasks |
-| 🕐 **Schedule** | 22:00 Daily | Batch processing window |
+| **Total Files** | 141 | 105 JSON + 35 CSV + 1 test file |
+| **Order Files** | 105 | 15 stores × 7 days of history |
+| **Stock Files** | 35 | 5 warehouses × 7 days of history |
+| **Products** | 49 | Across 5 categories (Dairy, Bakery, Beverages, Snacks, Frozen) |
+| **Suppliers** | 10 | With unique lead times and MOQs |
+| **POS Stores** | 15 | Retail locations generating daily orders |
+| **Warehouses** | 5 | Distribution centers tracking stock |
+| **HDFS Capacity** | 3.93 TB | Across 4 datanodes with 3-way replication |
+| **Pipeline Tasks** | 9 | Airflow DAG tasks |
+| **Schedule** | 22:00 Daily | Batch processing window |
 
 ### Sample Products
 
@@ -353,7 +382,7 @@ Cluster Configuration:
 • Active Nodes: 4
 • Total Capacity: 3.93 TB
 • Configured Capacity: 3,869.74 GB
-• Status: ✅ HEALTHY
+• Status: HEALTHY
 
 Datanode Distribution:
 • datanode  (legacy): 1006.85 GB | 140 blocks
@@ -370,9 +399,13 @@ Replication Health:
 
 ---
 
-## 🔄 Pipeline Workflow
+## Pipeline Workflow
 
 ### Airflow DAG Visualization
+
+![Airflow DAG Graph](procurement-pipeline/images/airflow_dag_graph.png)
+
+*Figure 5: Airflow pipeline execution graph with 9 tasks*
 
 The procurement pipeline consists of **9 orchestrated tasks** executed daily at 22:00:
 
@@ -424,7 +457,7 @@ The procurement pipeline consists of **9 orchestrated tasks** executed daily at 
 
 ---
 
-## 📈 Business Logic
+## Business Logic
 
 ### 1. Net Demand Formula
 
@@ -543,7 +576,7 @@ The system automatically detects anomalies and alerts procurement managers:
 
 ---
 
-## 🔄 Pipeline Execution Flow
+## Pipeline Execution Flow
 
 ### Complete Data Journey
 
@@ -763,7 +796,7 @@ Big-data/
 
 ---
 
-## 💼 Usage
+## Usage
 
 ### Daily Operations
 
@@ -975,7 +1008,7 @@ docker exec procurement_airflow cat /opt/airflow/logs/dag_id=procurement_daily_p
 
 ---
 
-## 📊 Monitoring
+## Monitoring
 
 ### System Health Dashboard
 
@@ -1058,7 +1091,7 @@ docker exec procurement_airflow cat /opt/airflow/data/output/pipeline_summary_$(
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues & Solutions
 
@@ -1307,7 +1340,7 @@ docker exec procurement_airflow cat /opt/airflow/data/output/exception_report_$(
 
 ---
 
-## 🚀 Quick Start Guide
+## Advanced Setup
 
 ### Prerequisites
 
@@ -1808,7 +1841,7 @@ python scripts/ingest_hdfs.py --source data/raw --hdfs-path /procurement
 
 ---
 
-## 📈 Pipeline Results
+## Pipeline Results
 
 ### Latest Execution (2026-01-03)
 
@@ -1961,7 +1994,7 @@ services:
 
 ---
 
-## 🔧 Troubleshooting Guide
+## Troubleshooting Guide
 
 ### Common Issues & Solutions
 
@@ -2759,7 +2792,7 @@ docker logs procurement-postgres
 ### Emergency Reset
 
 ```powershell
-# ⚠️ WARNING: This will DELETE all data and containers!
+# WARNING: This will DELETE all data and containers!
 
 # Stop and remove all containers + volumes
 docker-compose down -v
@@ -2781,7 +2814,7 @@ docker volume prune -f
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 ### Development Workflow
 
@@ -2890,7 +2923,7 @@ cat data/output/pipeline_summary_2026-01-03.txt
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
 ### Documentation
 
@@ -2939,7 +2972,7 @@ psql -U admin -d procurement_db   # Connect to DB
 
 ---
 
-## 📞 Contact
+## Contact
 
 ### Project Information
 
@@ -3023,7 +3056,7 @@ Through this project, students learn:
 
 <div align="center">
 
-### 🎓 Built with Knowledge, Powered by Open Source
+### Built with Knowledge, Powered by Open Source
 
 **ENSA Al Hoceima | Big Data Fundamentals | 2025-2026**
 
