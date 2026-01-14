@@ -61,6 +61,12 @@ services:
     depends_on:
       - postgres
       - namenode
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/v1/info"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   # pgAdmin - PostgreSQL Web Interface
   pgadmin:
@@ -83,7 +89,7 @@ services:
     environment:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://admin:password@postgres:5432/airflow_db
-      - AIRFLOW__CORE__FERNET_KEY=your-fernet-key-here-replace-in-production
+      - AIRFLOW__CORE__FERNET_KEY=h5tiQa3Zglp7i8PooALe7ylgjcPr87vyfQbOrS_EHOI=
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
       - AIRFLOW__WEBSERVER__SECRET_KEY=procurement-secret-key-2026
       - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags

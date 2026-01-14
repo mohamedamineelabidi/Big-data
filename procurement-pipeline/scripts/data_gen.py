@@ -9,7 +9,6 @@ from faker import Faker
 fake = Faker()
 
 # Configuration
-NUM_PRODUCTS = 50
 NUM_POS = 15  # Increased from 5 to 15 stores
 NUM_WAREHOUSES = 5  # Increased from 2 to 5 warehouses
 DAYS_TO_GENERATE = 7  # Generate 7 days of data
@@ -20,8 +19,29 @@ OUTPUT_DIR_STOCK = "data/raw/stock"
 os.makedirs(OUTPUT_DIR_ORDERS, exist_ok=True)
 os.makedirs(OUTPUT_DIR_STOCK, exist_ok=True)
 
-# Generate Product IDs (SKUs)
-product_ids = [f"SKU-{i:04d}" for i in range(1, NUM_PRODUCTS + 1)]
+# Product IDs (SKUs) - ALIGNED with PostgreSQL master data (init_master_data.sql)
+# These are the exact SKUs that exist in the products table with supplier mappings
+product_ids = [
+    # Beverages (7 items)
+    'SKU-0001', 'SKU-0005', 'SKU-0011', 'SKU-0012', 'SKU-0013', 'SKU-0014', 'SKU-0015',
+    # Bakery (5 items)
+    'SKU-0002', 'SKU-0021', 'SKU-0022', 'SKU-0023', 'SKU-0024',
+    # Electronics (7 items)
+    'SKU-0003', 'SKU-0004', 'SKU-0031', 'SKU-0032', 'SKU-0033', 'SKU-0034', 'SKU-0035',
+    # Dairy (5 items)
+    'SKU-0041', 'SKU-0042', 'SKU-0043', 'SKU-0044', 'SKU-0045',
+    # Snacks (5 items)
+    'SKU-0051', 'SKU-0052', 'SKU-0053', 'SKU-0054', 'SKU-0055',
+    # Fresh Produce (5 items)
+    'SKU-0061', 'SKU-0062', 'SKU-0063', 'SKU-0064', 'SKU-0065',
+    # Frozen Foods (5 items)
+    'SKU-0071', 'SKU-0072', 'SKU-0073', 'SKU-0074', 'SKU-0075',
+    # Household (5 items)
+    'SKU-0081', 'SKU-0082', 'SKU-0083', 'SKU-0084', 'SKU-0085',
+    # Personal Care (5 items)
+    'SKU-0091', 'SKU-0092', 'SKU-0093', 'SKU-0094', 'SKU-0095',
+]
+# Total: 49 products matching the database
 
 def generate_pos_orders(date_str):
     """Generate JSON files for POS orders."""
