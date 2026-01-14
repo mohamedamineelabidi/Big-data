@@ -103,6 +103,58 @@ Transform raw sales and inventory data into actionable procurement decisions:
 
 ---
 
+## 🔄 Airflow DAG Workflow
+
+The pipeline orchestration follows this execution flow:
+
+```
+                            start
+                            │
+                            ▼
+                    get_processing_date
+                            │
+                            ▼
+                  validate_data_sources
+                            │
+                            ▼
+                    data_quality_check
+                            │
+                            ▼
+                     compute_demand
+                            │
+                 ┌──────────┴──────────┐
+                 ▼                     ▼
+           export_orders      generate_exceptions
+                 │                     │
+                 └──────────┬──────────┘
+                            ▼
+                    generate_summary
+                            │
+                            ▼
+                           end
+```
+
+### Task Breakdown
+
+| Task # | Task Name | Duration | Description |
+|--------|-----------|----------|-------------|
+| 1 | start_pipeline | <1s | Initialize pipeline execution |
+| 2 | get_processing_date | <1s | Determine date to process (execution_date) |
+| 3 | validate_data_sources | ~2s | Verify order & stock files exist |
+| 4 | data_quality_check | ~5s | Validate JSON/CSV structure & data types |
+| 5 | compute_demand | ~15s | Run Trino queries & calculate net demand |
+| 6 | export_orders | ~8s | Generate supplier order JSON files |
+| 7 | generate_exceptions | ~8s | Detect anomalies & create alerts |
+| 8 | generate_summary | ~2s | Compile execution report |
+| 9 | end_pipeline | <1s | Mark completion |
+
+**Total Execution Time:** ~40-60 seconds  
+**Schedule:** `0 22 * * *` (Daily at 22:00)  
+**Retries:** 2 attempts with 5-minute delay  
+**Timeout:** 2 hours max
+
+---
+
 ## 💻 Technical Stack
 
 | Component | Technology | Version | Purpose |
@@ -138,6 +190,52 @@ The core replenishment calculation:
 │   Net Demand = Total Orders - Available Stock + Safety Stock    │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
+```
+
+### Real-World Example - Step by Step:
+
+**Product: Whole Milk 1L (SKU-0002)**
+
+```
+═══════════════════════════════════════════════════════════════
+
+📅 Step 1: Aggregate Orders (Last 7 Days)
+   Day 1 (Dec 28): 65 units
+   Day 2 (Dec 29): 72 units
+   Day 3 (Dec 30): 68 units
+   Day 4 (Dec 31): 80 units  ← Holiday spike
+   Day 5 (Jan 01): 85 units  ← Holiday spike
+   Day 6 (Jan 02): 70 units
+   Day 7 (Jan 03): 80 units
+   ────────────────────────
+   TOTAL DEMAND: 520 units
+
+📦 Step 2: Check Current Stock
+   Warehouse 1: 50 units
+   Warehouse 2: 60 units
+   Warehouse 3: 40 units
+   ────────────────────────
+   TOTAL STOCK: 150 units
+
+📋 Step 3: Load Business Rules (PostgreSQL)
+   • Supplier: DairyFresh LLC
+   • Lead Time: 3 days
+   • Safety Stock: 100 units (always keep as buffer)
+   • MOQ (Minimum Order): 50 units
+   • Case Size: 24 units/case
+
+🧮 Step 4: Calculate Net Demand
+   Basic Need = 520 - 150 = 370 units
+   Add Safety Buffer = 370 + 100 = 470 units
+   
+📦 Step 5: Round to Case Size
+   Cases Needed = ⌈470 ÷ 24⌉ = 20 cases
+   Final Order = 20 × 24 = 480 units ✓
+
+✅ RESULT: Order 480 units (20 cases) from DairyFresh LLC
+   Priority: HIGH (stock < 30% of demand)
+   Expected Delivery: Jan 06 (3 days)
+   Cost: 480 × $4.50 = $2,160.00
 ```
 
 **Example Calculation:**
