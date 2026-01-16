@@ -3,6 +3,16 @@ Phase 3: Demand Aggregation and Net Demand Calculation
 This script analyzes orders and stock to compute replenishment needs
 """
 
+import sys
+import os
+
+# Fix Windows console encoding for emojis
+if sys.platform == 'win32':
+    if sys.stdout.encoding != 'utf-8':
+        sys.stdout.reconfigure(encoding='utf-8')
+    if sys.stderr.encoding != 'utf-8':
+        sys.stderr.reconfigure(encoding='utf-8')
+
 import json
 import pandas as pd
 from pathlib import Path
@@ -233,7 +243,7 @@ class DemandAnalyzer:
             self.generate_report(replenishment_df, date_str)
             
             # Save results
-            output_path = Path("data/output")
+            output_path = Path("output")
             output_path.mkdir(exist_ok=True)
             
             output_file = output_path / f"replenishment_{date_str}.csv"
@@ -250,5 +260,11 @@ class DemandAnalyzer:
             return None
 
 if __name__ == "__main__":
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Compute procurement demand')
+    parser.add_argument('--date', default='2026-01-03', help='Date to process (YYYY-MM-DD)')
+    args = parser.parse_args()
+    
     analyzer = DemandAnalyzer()
-    result = analyzer.run_analysis(date_str="2026-01-03")
+    result = analyzer.run_analysis(date_str=args.date)

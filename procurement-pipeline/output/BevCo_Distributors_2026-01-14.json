@@ -1,0 +1,106 @@
+{
+  "order_id": "ORD-20260114-006-001",
+  "supplier_id": "SUP-006",
+  "supplier_name": "BevCo Distributors",
+  "order_date": "2026-01-14",
+  "requested_delivery_date": "2026-01-16",
+  "status": "PENDING",
+  "priority": "HIGH",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0001",
+      "product_name": "Organic Apple Juice",
+      "category": "Beverages",
+      "quantity_ordered": 1032,
+      "cases": 43,
+      "case_size": 24,
+      "net_demand": 1018.0,
+      "available_stock": 1576.0,
+      "total_demand": 2494.0
+    },
+    {
+      "line_number": 2,
+      "sku": "SKU-0005",
+      "product_name": "Almond Milk",
+      "category": "Beverages",
+      "quantity_ordered": 1056,
+      "cases": 88,
+      "case_size": 12,
+      "net_demand": 1047.0,
+      "available_stock": 1927.0,
+      "total_demand": 2894.0
+    },
+    {
+      "line_number": 3,
+      "sku": "SKU-0011",
+      "product_name": "Orange Juice 1L",
+      "category": "Beverages",
+      "quantity_ordered": 1752,
+      "cases": 146,
+      "case_size": 12,
+      "net_demand": 1744.0,
+      "available_stock": 1088.0,
+      "total_demand": 2772.0
+    },
+    {
+      "line_number": 4,
+      "sku": "SKU-0012",
+      "product_name": "Cola 2L",
+      "category": "Beverages",
+      "quantity_ordered": 1686,
+      "cases": 281,
+      "case_size": 6,
+      "net_demand": 1681.0,
+      "available_stock": 1112.0,
+      "total_demand": 2693.0
+    },
+    {
+      "line_number": 5,
+      "sku": "SKU-0013",
+      "product_name": "Mineral Water 500ml",
+      "category": "Beverages",
+      "quantity_ordered": 1056,
+      "cases": 44,
+      "case_size": 24,
+      "net_demand": 1056.0,
+      "available_stock": 1600.0,
+      "total_demand": 2506.0
+    },
+    {
+      "line_number": 6,
+      "sku": "SKU-0014",
+      "product_name": "Energy Drink",
+      "category": "Beverages",
+      "quantity_ordered": 2184,
+      "cases": 91,
+      "case_size": 24,
+      "net_demand": 2165.0,
+      "available_stock": 664.0,
+      "total_demand": 2749.0
+    },
+    {
+      "line_number": 7,
+      "sku": "SKU-0015",
+      "product_name": "Green Tea",
+      "category": "Beverages",
+      "quantity_ordered": 1760,
+      "cases": 88,
+      "case_size": 20,
+      "net_demand": 1742.0,
+      "available_stock": 863.0,
+      "total_demand": 2555.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 7,
+    "total_units": 10526,
+    "total_cases": 781
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-15T12:23:35.648578",
+    "pipeline_version": "1.0",
+    "source_file": "replenishment_2026-01-14.csv"
+  }
+}

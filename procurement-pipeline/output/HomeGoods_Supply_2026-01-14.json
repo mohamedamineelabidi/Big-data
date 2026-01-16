@@ -1,0 +1,142 @@
+{
+  "order_id": "ORD-20260114-010-001",
+  "supplier_id": "SUP-010",
+  "supplier_name": "HomeGoods Supply",
+  "order_date": "2026-01-14",
+  "requested_delivery_date": "2026-01-16",
+  "status": "PENDING",
+  "priority": "HIGH",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0081",
+      "product_name": "Paper Towels",
+      "category": "Household",
+      "quantity_ordered": 1992,
+      "cases": 166,
+      "case_size": 12,
+      "net_demand": 1984.0,
+      "available_stock": 1119.0,
+      "total_demand": 3023.0
+    },
+    {
+      "line_number": 2,
+      "sku": "SKU-0082",
+      "product_name": "Toilet Paper 12pk",
+      "category": "Household",
+      "quantity_ordered": 808,
+      "cases": 202,
+      "case_size": 4,
+      "net_demand": 807.0,
+      "available_stock": 1839.0,
+      "total_demand": 2596.0
+    },
+    {
+      "line_number": 3,
+      "sku": "SKU-0083",
+      "product_name": "Dish Soap",
+      "category": "Household",
+      "quantity_ordered": 1512,
+      "cases": 63,
+      "case_size": 24,
+      "net_demand": 1512.0,
+      "available_stock": 1132.0,
+      "total_demand": 2524.0
+    },
+    {
+      "line_number": 4,
+      "sku": "SKU-0084",
+      "product_name": "Laundry Detergent",
+      "category": "Household",
+      "quantity_ordered": 1356,
+      "cases": 226,
+      "case_size": 6,
+      "net_demand": 1355.0,
+      "available_stock": 1204.0,
+      "total_demand": 2519.0
+    },
+    {
+      "line_number": 5,
+      "sku": "SKU-0085",
+      "product_name": "Trash Bags",
+      "category": "Household",
+      "quantity_ordered": 1210,
+      "cases": 121,
+      "case_size": 10,
+      "net_demand": 1209.0,
+      "available_stock": 1389.0,
+      "total_demand": 2538.0
+    },
+    {
+      "line_number": 6,
+      "sku": "SKU-0091",
+      "product_name": "Shampoo",
+      "category": "Personal Care",
+      "quantity_ordered": 1464,
+      "cases": 122,
+      "case_size": 12,
+      "net_demand": 1458.0,
+      "available_stock": 1294.0,
+      "total_demand": 2677.0
+    },
+    {
+      "line_number": 7,
+      "sku": "SKU-0092",
+      "product_name": "Toothpaste",
+      "category": "Personal Care",
+      "quantity_ordered": 1584,
+      "cases": 66,
+      "case_size": 24,
+      "net_demand": 1583.0,
+      "available_stock": 1300.0,
+      "total_demand": 2753.0
+    },
+    {
+      "line_number": 8,
+      "sku": "SKU-0093",
+      "product_name": "Hand Soap",
+      "category": "Personal Care",
+      "quantity_ordered": 1960,
+      "cases": 98,
+      "case_size": 20,
+      "net_demand": 1948.0,
+      "available_stock": 954.0,
+      "total_demand": 2802.0
+    },
+    {
+      "line_number": 9,
+      "sku": "SKU-0094",
+      "product_name": "Deodorant",
+      "category": "Personal Care",
+      "quantity_ordered": 1350,
+      "cases": 75,
+      "case_size": 18,
+      "net_demand": 1337.0,
+      "available_stock": 1434.0,
+      "total_demand": 2681.0
+    },
+    {
+      "line_number": 10,
+      "sku": "SKU-0095",
+      "product_name": "Body Lotion",
+      "category": "Personal Care",
+      "quantity_ordered": 1572,
+      "cases": 131,
+      "case_size": 12,
+      "net_demand": 1567.0,
+      "available_stock": 1342.0,
+      "total_demand": 2829.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 10,
+    "total_units": 14808,
+    "total_cases": 1270
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-15T12:23:35.656975",
+    "pipeline_version": "1.0",
+    "source_file": "replenishment_2026-01-14.csv"
+  }
+}

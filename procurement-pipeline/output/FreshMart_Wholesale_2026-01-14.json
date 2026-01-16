@@ -1,0 +1,190 @@
+{
+  "order_id": "ORD-20260114-004-001",
+  "supplier_id": "SUP-004",
+  "supplier_name": "FreshMart Wholesale",
+  "order_date": "2026-01-14",
+  "requested_delivery_date": "2026-01-16",
+  "status": "PENDING",
+  "priority": "HIGH",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0002",
+      "product_name": "Whole Wheat Bread",
+      "category": "Bakery",
+      "quantity_ordered": 1632,
+      "cases": 136,
+      "case_size": 12,
+      "net_demand": 1626.0,
+      "available_stock": 901.0,
+      "total_demand": 2477.0
+    },
+    {
+      "line_number": 2,
+      "sku": "SKU-0021",
+      "product_name": "Croissant Pack",
+      "category": "Bakery",
+      "quantity_ordered": 1968,
+      "cases": 328,
+      "case_size": 6,
+      "net_demand": 1963.0,
+      "available_stock": 924.0,
+      "total_demand": 2857.0
+    },
+    {
+      "line_number": 3,
+      "sku": "SKU-0022",
+      "product_name": "Bagels 6pk",
+      "category": "Bakery",
+      "quantity_ordered": 2032,
+      "cases": 254,
+      "case_size": 8,
+      "net_demand": 2026.0,
+      "available_stock": 940.0,
+      "total_demand": 2926.0
+    },
+    {
+      "line_number": 4,
+      "sku": "SKU-0023",
+      "product_name": "Muffins Assorted",
+      "category": "Bakery",
+      "quantity_ordered": 1992,
+      "cases": 166,
+      "case_size": 12,
+      "net_demand": 1989.0,
+      "available_stock": 727.0,
+      "total_demand": 2681.0
+    },
+    {
+      "line_number": 5,
+      "sku": "SKU-0024",
+      "product_name": "Baguette",
+      "category": "Bakery",
+      "quantity_ordered": 1280,
+      "cases": 128,
+      "case_size": 10,
+      "net_demand": 1279.0,
+      "available_stock": 1244.0,
+      "total_demand": 2473.0
+    },
+    {
+      "line_number": 6,
+      "sku": "SKU-0061",
+      "product_name": "Bananas",
+      "category": "Produce",
+      "quantity_ordered": 1918,
+      "cases": 1918,
+      "case_size": 1,
+      "net_demand": 1918.0,
+      "available_stock": 901.0,
+      "total_demand": 2789.0
+    },
+    {
+      "line_number": 7,
+      "sku": "SKU-0062",
+      "product_name": "Apples",
+      "category": "Produce",
+      "quantity_ordered": 1396,
+      "cases": 1396,
+      "case_size": 1,
+      "net_demand": 1396.0,
+      "available_stock": 1187.0,
+      "total_demand": 2553.0
+    },
+    {
+      "line_number": 8,
+      "sku": "SKU-0063",
+      "product_name": "Tomatoes",
+      "category": "Produce",
+      "quantity_ordered": 1483,
+      "cases": 1483,
+      "case_size": 1,
+      "net_demand": 1483.0,
+      "available_stock": 1324.0,
+      "total_demand": 2782.0
+    },
+    {
+      "line_number": 9,
+      "sku": "SKU-0064",
+      "product_name": "Lettuce",
+      "category": "Produce",
+      "quantity_ordered": 1404,
+      "cases": 1404,
+      "case_size": 1,
+      "net_demand": 1404.0,
+      "available_stock": 1282.0,
+      "total_demand": 2666.0
+    },
+    {
+      "line_number": 10,
+      "sku": "SKU-0065",
+      "product_name": "Carrots",
+      "category": "Produce",
+      "quantity_ordered": 1807,
+      "cases": 1807,
+      "case_size": 1,
+      "net_demand": 1807.0,
+      "available_stock": 712.0,
+      "total_demand": 2494.0
+    },
+    {
+      "line_number": 11,
+      "sku": "SKU-0071",
+      "product_name": "Frozen Pizza",
+      "category": "Frozen",
+      "quantity_ordered": 1032,
+      "cases": 86,
+      "case_size": 12,
+      "net_demand": 1023.0,
+      "available_stock": 1729.0,
+      "total_demand": 2692.0
+    },
+    {
+      "line_number": 12,
+      "sku": "SKU-0073",
+      "product_name": "Frozen Vegetables",
+      "category": "Frozen",
+      "quantity_ordered": 1776,
+      "cases": 111,
+      "case_size": 16,
+      "net_demand": 1774.0,
+      "available_stock": 1036.0,
+      "total_demand": 2730.0
+    },
+    {
+      "line_number": 13,
+      "sku": "SKU-0074",
+      "product_name": "Chicken Nuggets",
+      "category": "Frozen",
+      "quantity_ordered": 1476,
+      "cases": 123,
+      "case_size": 12,
+      "net_demand": 1473.0,
+      "available_stock": 1247.0,
+      "total_demand": 2650.0
+    },
+    {
+      "line_number": 14,
+      "sku": "SKU-0075",
+      "product_name": "Frozen Fries",
+      "category": "Frozen",
+      "quantity_ordered": 1200,
+      "cases": 60,
+      "case_size": 20,
+      "net_demand": 1193.0,
+      "available_stock": 1303.0,
+      "total_demand": 2406.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 14,
+    "total_units": 22396,
+    "total_cases": 9400
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-15T12:23:35.654571",
+    "pipeline_version": "1.0",
+    "source_file": "replenishment_2026-01-14.csv"
+  }
+}

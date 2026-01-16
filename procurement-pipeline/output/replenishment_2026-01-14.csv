@@ -1,0 +1,50 @@
+sku,total_demand,available_stock,product_name,category,case_size,minimum_order_qty,safety_stock_level,supplier_id,supplier_name,net_demand,cases_needed,order_quantity
+SKU-0081,3023,1119,Paper Towels,Household,12,30,80,SUP-010,HomeGoods Supply,1984,166,1992
+SKU-0031,2932,1355,USB Cable 2m,Electronics,50,100,300,SUP-005,ElectroSupply Co,1877,38,1900
+SKU-0022,2926,940,Bagels 6pk,Bakery,8,20,40,SUP-004,FreshMart Wholesale,2026,254,2032
+SKU-0052,2915,1027,Chocolate Bar,Snacks,48,100,250,SUP-007,SnackWorld Inc,2138,45,2160
+SKU-0005,2894,1927,Almond Milk,Beverages,12,40,80,SUP-006,BevCo Distributors,1047,88,1056
+SKU-0053,2888,1065,Granola Bar Box,Snacks,12,30,80,SUP-007,SnackWorld Inc,1903,159,1908
+SKU-0021,2857,924,Croissant Pack,Bakery,6,15,30,SUP-004,FreshMart Wholesale,1963,328,1968
+SKU-0095,2829,1342,Body Lotion,Personal Care,12,30,80,SUP-010,HomeGoods Supply,1567,131,1572
+SKU-0072,2811,1214,Ice Cream,Frozen,8,20,50,SUP-008,DairyFresh LLC,1647,206,1648
+SKU-0093,2802,954,Hand Soap,Personal Care,20,40,100,SUP-010,HomeGoods Supply,1948,98,1960
+SKU-0045,2791,1708,Cream Cheese,Dairy,12,25,60,SUP-008,DairyFresh LLC,1143,96,1152
+SKU-0061,2789,901,Bananas,Produce,1,10,30,SUP-004,FreshMart Wholesale,1918,1918,1918
+SKU-0063,2782,1324,Tomatoes,Produce,1,10,25,SUP-004,FreshMart Wholesale,1483,1483,1483
+SKU-0011,2772,1088,Orange Juice 1L,Beverages,12,30,60,SUP-006,BevCo Distributors,1744,146,1752
+SKU-0092,2753,1300,Toothpaste,Personal Care,24,50,130,SUP-010,HomeGoods Supply,1583,66,1584
+SKU-0014,2749,664,Energy Drink,Beverages,24,30,80,SUP-006,BevCo Distributors,2165,91,2184
+SKU-0073,2730,1036,Frozen Vegetables,Frozen,16,30,80,SUP-004,FreshMart Wholesale,1774,111,1776
+SKU-0034,2724,831,Keyboard Wireless,Electronics,10,25,60,SUP-005,ElectroSupply Co,1953,196,1960
+SKU-0042,2694,1412,Greek Yogurt,Dairy,16,50,120,SUP-008,DairyFresh LLC,1402,88,1408
+SKU-0012,2693,1112,Cola 2L,Beverages,6,40,100,SUP-006,BevCo Distributors,1681,281,1686
+SKU-0071,2692,1729,Frozen Pizza,Frozen,12,25,60,SUP-004,FreshMart Wholesale,1023,86,1032
+SKU-0094,2681,1434,Deodorant,Personal Care,18,35,90,SUP-010,HomeGoods Supply,1337,75,1350
+SKU-0023,2681,727,Muffins Assorted,Bakery,12,18,35,SUP-004,FreshMart Wholesale,1989,166,1992
+SKU-0091,2677,1294,Shampoo,Personal Care,12,30,75,SUP-010,HomeGoods Supply,1458,122,1464
+SKU-0064,2666,1282,Lettuce,Produce,1,10,20,SUP-004,FreshMart Wholesale,1404,1404,1404
+SKU-0051,2660,950,Potato Chips,Snacks,24,50,150,SUP-007,SnackWorld Inc,1860,78,1872
+SKU-0074,2650,1247,Chicken Nuggets,Frozen,12,25,70,SUP-004,FreshMart Wholesale,1473,123,1476
+SKU-0055,2617,646,Popcorn,Snacks,20,45,120,SUP-007,SnackWorld Inc,2091,105,2100
+SKU-0044,2613,1492,Butter,Dairy,20,35,80,SUP-008,DairyFresh LLC,1201,61,1220
+SKU-0004,2606,1385,"LED Monitor 24""",Electronics,1,5,10,SUP-005,ElectroSupply Co,1231,1231,1231
+SKU-0032,2598,1207,Bluetooth Speaker,Electronics,12,20,50,SUP-009,TechGear Plus,1441,121,1452
+SKU-0082,2596,1839,Toilet Paper 12pk,Household,4,20,50,SUP-010,HomeGoods Supply,807,202,808
+SKU-0043,2577,1242,Cheddar Cheese,Dairy,10,30,70,SUP-008,DairyFresh LLC,1405,141,1410
+SKU-0035,2573,1281,Headphones,Electronics,15,30,80,SUP-009,TechGear Plus,1372,92,1380
+SKU-0054,2565,1329,Mixed Nuts,Snacks,16,40,100,SUP-007,SnackWorld Inc,1336,84,1344
+SKU-0015,2555,863,Green Tea,Beverages,20,25,50,SUP-006,BevCo Distributors,1742,88,1760
+SKU-0062,2553,1187,Apples,Produce,1,10,30,SUP-004,FreshMart Wholesale,1396,1396,1396
+SKU-0085,2538,1389,Trash Bags,Household,10,25,60,SUP-010,HomeGoods Supply,1209,121,1210
+SKU-0083,2524,1132,Dish Soap,Household,24,50,120,SUP-010,HomeGoods Supply,1512,63,1512
+SKU-0084,2519,1204,Laundry Detergent,Household,6,15,40,SUP-010,HomeGoods Supply,1355,226,1356
+SKU-0013,2506,1600,Mineral Water 500ml,Beverages,24,50,150,SUP-006,BevCo Distributors,1056,44,1056
+SKU-0033,2499,1113,Webcam HD,Electronics,8,15,30,SUP-009,TechGear Plus,1416,177,1416
+SKU-0065,2494,712,Carrots,Produce,1,10,25,SUP-004,FreshMart Wholesale,1807,1807,1807
+SKU-0001,2494,1576,Organic Apple Juice,Beverages,24,50,100,SUP-006,BevCo Distributors,1018,43,1032
+SKU-0002,2477,901,Whole Wheat Bread,Bakery,12,20,50,SUP-004,FreshMart Wholesale,1626,136,1632
+SKU-0024,2473,1244,Baguette,Bakery,10,25,50,SUP-004,FreshMart Wholesale,1279,128,1280
+SKU-0075,2406,1303,Frozen Fries,Frozen,20,35,90,SUP-004,FreshMart Wholesale,1193,60,1200
+SKU-0041,2403,974,Milk 2%,Dairy,12,40,100,SUP-008,DairyFresh LLC,1529,128,1536
+SKU-0003,2398,1634,Wireless Mouse,Electronics,10,100,200,SUP-005,ElectroSupply Co,964,97,970

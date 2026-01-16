@@ -1,0 +1,94 @@
+{
+  "order_id": "ORD-20260114-008-001",
+  "supplier_id": "SUP-008",
+  "supplier_name": "DairyFresh LLC",
+  "order_date": "2026-01-14",
+  "requested_delivery_date": "2026-01-16",
+  "status": "PENDING",
+  "priority": "HIGH",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0041",
+      "product_name": "Milk 2%",
+      "category": "Dairy",
+      "quantity_ordered": 1536,
+      "cases": 128,
+      "case_size": 12,
+      "net_demand": 1529.0,
+      "available_stock": 974.0,
+      "total_demand": 2403.0
+    },
+    {
+      "line_number": 2,
+      "sku": "SKU-0042",
+      "product_name": "Greek Yogurt",
+      "category": "Dairy",
+      "quantity_ordered": 1408,
+      "cases": 88,
+      "case_size": 16,
+      "net_demand": 1402.0,
+      "available_stock": 1412.0,
+      "total_demand": 2694.0
+    },
+    {
+      "line_number": 3,
+      "sku": "SKU-0043",
+      "product_name": "Cheddar Cheese",
+      "category": "Dairy",
+      "quantity_ordered": 1410,
+      "cases": 141,
+      "case_size": 10,
+      "net_demand": 1405.0,
+      "available_stock": 1242.0,
+      "total_demand": 2577.0
+    },
+    {
+      "line_number": 4,
+      "sku": "SKU-0044",
+      "product_name": "Butter",
+      "category": "Dairy",
+      "quantity_ordered": 1220,
+      "cases": 61,
+      "case_size": 20,
+      "net_demand": 1201.0,
+      "available_stock": 1492.0,
+      "total_demand": 2613.0
+    },
+    {
+      "line_number": 5,
+      "sku": "SKU-0045",
+      "product_name": "Cream Cheese",
+      "category": "Dairy",
+      "quantity_ordered": 1152,
+      "cases": 96,
+      "case_size": 12,
+      "net_demand": 1143.0,
+      "available_stock": 1708.0,
+      "total_demand": 2791.0
+    },
+    {
+      "line_number": 6,
+      "sku": "SKU-0072",
+      "product_name": "Ice Cream",
+      "category": "Frozen",
+      "quantity_ordered": 1648,
+      "cases": 206,
+      "case_size": 8,
+      "net_demand": 1647.0,
+      "available_stock": 1214.0,
+      "total_demand": 2811.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 6,
+    "total_units": 8374,
+    "total_cases": 720
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-15T12:23:35.650567",
+    "pipeline_version": "1.0",
+    "source_file": "replenishment_2026-01-14.csv"
+  }
+}

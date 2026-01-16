@@ -1,0 +1,58 @@
+{
+  "order_id": "ORD-20260114-009-001",
+  "supplier_id": "SUP-009",
+  "supplier_name": "TechGear Plus",
+  "order_date": "2026-01-14",
+  "requested_delivery_date": "2026-01-16",
+  "status": "PENDING",
+  "priority": "MEDIUM",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0032",
+      "product_name": "Bluetooth Speaker",
+      "category": "Electronics",
+      "quantity_ordered": 1452,
+      "cases": 121,
+      "case_size": 12,
+      "net_demand": 1441.0,
+      "available_stock": 1207.0,
+      "total_demand": 2598.0
+    },
+    {
+      "line_number": 2,
+      "sku": "SKU-0033",
+      "product_name": "Webcam HD",
+      "category": "Electronics",
+      "quantity_ordered": 1416,
+      "cases": 177,
+      "case_size": 8,
+      "net_demand": 1416.0,
+      "available_stock": 1113.0,
+      "total_demand": 2499.0
+    },
+    {
+      "line_number": 3,
+      "sku": "SKU-0035",
+      "product_name": "Headphones",
+      "category": "Electronics",
+      "quantity_ordered": 1380,
+      "cases": 92,
+      "case_size": 15,
+      "net_demand": 1372.0,
+      "available_stock": 1281.0,
+      "total_demand": 2573.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 3,
+    "total_units": 4248,
+    "total_cases": 390
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-15T12:23:35.661983",
+    "pipeline_version": "1.0",
+    "source_file": "replenishment_2026-01-14.csv"
+  }
+}

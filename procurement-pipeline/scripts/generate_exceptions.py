@@ -6,6 +6,16 @@ Author: Data Engineering Team
 Date: January 2026
 """
 
+import sys
+import os
+
+# Fix Windows console encoding for emojis
+if sys.platform == 'win32':
+    if sys.stdout.encoding != 'utf-8':
+        sys.stdout.reconfigure(encoding='utf-8')
+    if sys.stderr.encoding != 'utf-8':
+        sys.stderr.reconfigure(encoding='utf-8')
+
 import json
 import pandas as pd
 from pathlib import Path
@@ -30,14 +40,14 @@ class ExceptionReporter:
         'LOW': 4
     }
     
-    def __init__(self, base_path="data"):
+    def __init__(self, base_path="."):
         self.base_path = Path(base_path)
-        self.output_path = self.base_path / "output" / "exceptions"
+        self.output_path = Path("logs")
         self.output_path.mkdir(parents=True, exist_ok=True)
         
     def load_replenishment_data(self, date_str):
         """Load the replenishment CSV for a given date"""
-        input_file = self.base_path / "output" / f"replenishment_{date_str}.csv"
+        input_file = Path("output") / f"replenishment_{date_str}.csv"
         
         if not input_file.exists():
             raise FileNotFoundError(f"Replenishment file not found: {input_file}")

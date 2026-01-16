@@ -1,0 +1,82 @@
+{
+  "order_id": "ORD-20260114-007-001",
+  "supplier_id": "SUP-007",
+  "supplier_name": "SnackWorld Inc",
+  "order_date": "2026-01-14",
+  "requested_delivery_date": "2026-01-16",
+  "status": "PENDING",
+  "priority": "HIGH",
+  "items": [
+    {
+      "line_number": 1,
+      "sku": "SKU-0051",
+      "product_name": "Potato Chips",
+      "category": "Snacks",
+      "quantity_ordered": 1872,
+      "cases": 78,
+      "case_size": 24,
+      "net_demand": 1860.0,
+      "available_stock": 950.0,
+      "total_demand": 2660.0
+    },
+    {
+      "line_number": 2,
+      "sku": "SKU-0052",
+      "product_name": "Chocolate Bar",
+      "category": "Snacks",
+      "quantity_ordered": 2160,
+      "cases": 45,
+      "case_size": 48,
+      "net_demand": 2138.0,
+      "available_stock": 1027.0,
+      "total_demand": 2915.0
+    },
+    {
+      "line_number": 3,
+      "sku": "SKU-0053",
+      "product_name": "Granola Bar Box",
+      "category": "Snacks",
+      "quantity_ordered": 1908,
+      "cases": 159,
+      "case_size": 12,
+      "net_demand": 1903.0,
+      "available_stock": 1065.0,
+      "total_demand": 2888.0
+    },
+    {
+      "line_number": 4,
+      "sku": "SKU-0054",
+      "product_name": "Mixed Nuts",
+      "category": "Snacks",
+      "quantity_ordered": 1344,
+      "cases": 84,
+      "case_size": 16,
+      "net_demand": 1336.0,
+      "available_stock": 1329.0,
+      "total_demand": 2565.0
+    },
+    {
+      "line_number": 5,
+      "sku": "SKU-0055",
+      "product_name": "Popcorn",
+      "category": "Snacks",
+      "quantity_ordered": 2100,
+      "cases": 105,
+      "case_size": 20,
+      "net_demand": 2091.0,
+      "available_stock": 646.0,
+      "total_demand": 2617.0
+    }
+  ],
+  "summary": {
+    "total_line_items": 5,
+    "total_units": 9384,
+    "total_cases": 471
+  },
+  "metadata": {
+    "generated_by": "procurement_pipeline",
+    "generation_timestamp": "2026-01-15T12:23:35.659309",
+    "pipeline_version": "1.0",
+    "source_file": "replenishment_2026-01-14.csv"
+  }
+}
