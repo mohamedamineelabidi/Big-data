@@ -173,7 +173,6 @@ The system runs on **8 Docker containers** forming a complete big data ecosystem
 
 ---
 
-<<<<<<< HEAD
 ## 🔄 Airflow DAG Workflow
 
 The pipeline orchestration follows this execution flow:
@@ -225,13 +224,9 @@ The pipeline orchestration follows this execution flow:
 **Timeout:** 2 hours max
 
 ---
-
-## 💻 Technical Stack
-=======
 ## Technology Stack
 
 ### Core Technologies
->>>>>>> 003a7e64188f356893e14be87f96c9cbbd063b98
 
 | Component | Technology | Version | Purpose |
 |-----------|------------|---------|---------|
@@ -328,15 +323,11 @@ cd big-data-procurement/procurement-pipeline
 .\setup.ps1
 
 # This script will:
-#  Create Python virtual environment
-#  Install Python dependencies
-#  Generate .gitignore
-#  Create data directories
-#  Generate sample data
-#  Start Docker containers
-#  Initialize HDFS
-#  Load master data to PostgreSQL
-#  Upload files to HDFS
+#  Create required data/log directories
+#  Install Python dependencies into the current environment
+#  Check Docker availability
+#  Warn if the Airflow Fernet key is still a placeholder
+# Remaining manual steps: start Docker Compose, generate sample data, init HDFS/upload files
 ```
 
 #### Linux/macOS (Bash)
@@ -351,15 +342,11 @@ chmod +x setup.sh
 ./setup.sh
 
 # This script will:
-#  Create Python virtual environment
-#  Install Python dependencies
-#  Generate .gitignore
-#  Create data directories
-#  Generate sample data
-#  Start Docker containers
-#  Initialize HDFS
-#  Load master data to PostgreSQL
-#  Upload files to HDFS
+#  Create required data/log directories
+#  Install Python dependencies into the current environment
+#  Check Docker availability
+#  Warn if the Airflow Fernet key is still a placeholder
+# Remaining manual steps: start Docker Compose, generate sample data, init HDFS/upload files
 ```
 
 ### Verify Installation
@@ -387,6 +374,8 @@ docker exec procurement_namenode hdfs dfsadmin -report
 # Trino UI:    http://localhost:8080
 # HDFS UI:     http://localhost:9870
 # pgAdmin:     http://localhost:5050 (admin@admin.com/admin)
+
+> Note: store secrets (DB passwords, Airflow Fernet key, webserver secret) in a local `.env` and reference them in `docker-compose.yml` instead of committing plaintext values.
 ```
 
 ---

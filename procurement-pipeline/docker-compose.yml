@@ -156,7 +156,7 @@ services:
       - trino
     command: >
       bash -c "
-        pip install pandas trino psycopg2-binary &&
+        pip install -r /opt/airflow/scripts/requirements.txt &&
         airflow db migrate &&
         airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
         airflow webserver & airflow scheduler
